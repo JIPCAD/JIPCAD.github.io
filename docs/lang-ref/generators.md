@@ -1,0 +1,362 @@
+---
+sidebar_position: 3
+---
+
+# Generators
+
+## **Point** **(Status: Up-to-date)**
+
+```
+point id (x y z) endpoint
+```
+
+Defines a point at the specified x, y, and z coordinates.
+
+## **Controlpoint**
+
+```
+controlpoint id  point id scale(sx sy sz) rotate(rx ry rz) endcontrolpoint
+```
+
+Enhances a point (id) with additional parameters controlling the non-uniform scaling and rotation (rz) and tilting (rx, ry) of the cross section swept along a path.
+
+## **Polyline** **(Status: surface not implemented)**
+
+```
+polyline id ( point_idlist ) [closed] [surface surface_id] endpolyline
+```
+
+Defines a polyline, a chain of piecewise linear segments. You can optionally make it closed, i.e., the last point connects back to the first.
+
+* `point_idlist`: a list of points of the form `point1` `point2` ...
+
+## **Face** **(Status: Up-to-date)**
+
+```
+face id (point_idlist) [surface surface_id] endface
+```
+
+Defines a face from a list of points. Front face uses counter-clockwise winding.
+
+* `point_idlist`: a list of points of the form `point1` `point2` ...
+
+## **Bezier Curve** **(Status: Up-to-date)**
+
+```
+beziercurve id (point_idlist) segs  endbeziercurve
+```
+
+Defines a Bezier curve.
+
+* `point_idlist`: a list of points of the form `point1` `point2` ...
+* `segs`: the number of segments into which the Bezier curve is sampled.
+
+## **B-Spline** **(Status: Up-to-date)**
+
+```
+bspline id order (point_idlist) segs endbspline
+```
+
+Defines a B-spline.
+
+* `{order}`: integer that sets the B-spline's DEGREE to be `{order}-1`.
+* `point_idlist`: a list of points of the form `point1` `point2` ...
+* `segs`: the number of segments into which the B-spline is sampled.
+* The number of control points must be greater than or equal to `{order}`
+* For closed curves, there must be at least `{order}-1` control points.
+
+## **Mesh** **(Status: Up-to-date)**
+
+```
+mesh id 
+	point pointId1 id1 (x y z) endpoint 
+	…
+	point pointIdN (x y z) endpoint
+	
+	face faceId1 ( point_idlist1 ) [surface surface_id] endface 
+	... 
+	face faceIdN ( point_idlistN) [surface surface_id] endface
+endface endmesh
+```
+
+Also creates a collection of faces, which can optionally be colored. Faces in a mesh can then be referred to in the rest of the program via a hierarchical name: id.faceId. Variable names must be unique within a mesh.
+
+* `faceId`: the name of the face
+
+* `point_idlist`: a list of points of the form `point1` `point2` ...
+
+* `pointId`: the name of the point
+
+## **Circle** **(Status: Up-to-date)**
+
+```
+circle id (radius segs) endcircle
+```
+
+Defines a circle.
+
+* `radius`: the radius.
+* `segs`: the number of line segments.
+* `radius`, `segs` :cannot be negative.
+
+## Disk
+
+```
+Disk id (radius theta_max theta_segs) enddisk
+```
+
+Defines a (partial) disk.
+
+* `radius`: the radius of the disk.
+
+* `theta_max`: the max theta angle (<= 360 degrees), resulting in a wedge.
+
+* `theta_segs`: the number of segments in the wedge perimeter.
+
+* `radius`,` theta_segs` cannot be negative.
+
+* `Theta_max` must be between 0 ~ 360 degrees.
+
+## **Cylinder**
+
+```
+cylinder id (radius height theta_max theta_segs [botcap] [topcap] ) endcylinder
+```
+
+Defines a (wedge of a) cylinder.
+
+* `radius`: the radius at the bottom.
+* `height`: the height of a complete cone.
+* `theta_max`: the max theta angle (<= 360 degrees), resulting in a cylinder wedge.
+* `theta_segs`: the number of segments in the theta direction.
+* `“botcap”`: if present, draw the bottom face (with downward normal).
+* `“topcap”`: if present, draw the top face on the cylinder.
+* `Radius`, `height`, `theta_segs` cannot be negative.
+* `Theta_max` must be between 0 ~ 360 degrees.
+
+## **Cone** **(this command is not implemented)**
+
+```
+cone id (radius height hgt_max theta_max theta_segs [botcap] [topcap] ) endcone
+```
+
+Defines a (possibly truncated) cone.
+
+* `radius`: the radius at the bottom.
+* `height`: the height of a complete cone.
+* `hgt_max`: the fraction of the height [0, 1] at which the cone is truncated.
+* `theta_max`: the max theta angle (<= 360 degrees), resulting in a partial cone.
+* `theta_segs`: the number of segments in the theta direction.
+* `“botcap”`: if present, draw the bottom face (with downward normal).
+* `“topcap”`: if present, draw the top face on a truncated cone.2
+
+## **Funnel**
+
+```
+funnel id (radius ratio height segs) endfunnel
+```
+
+Defines a funnel, i.e. the mantle of a truncated cone.
+
+* `radius`: the radius of the “bottom” ring.
+* `ratio`: the ratio of the radii of the top ring and the bottom ring.
+* `height`: the height of the truncated cone.
+* `segs`: the number of segments around the equator.
+* `radius`, `ratio`,` height`, `segs` cannot be negative.
+
+## **Tunnel**
+
+```
+tunnel id (radius ratio height segs) endtunnel
+```
+
+Defines a tunnel made from two Funnels, glued bottom-to-bottom.
+
+* `radius`: the radius of the “middle” ring.
+* `ratio`: the ratio of the radii of the two outer rings and the middle ring.
+* `height`: the heights of each of the truncated cones.
+* `segs`: the number of segments around the equator.
+* `radius`,` ratio`, `height`, `segs` cannot be negative.
+
+## **Sphere {older implementation}**
+
+```
+sphere id (num_sides radius num_rotation max_theta min_phi max_phi) endsphere
+```
+
+Defines a sphere.
+
+* `num_sides`: the number of line segments in the latitudinal direction
+* `radius`: the radius of the sphere
+* `num_rotation`: the number of line segments in the longitudinal direction
+* `max_theta`: the max theta of any latitude, resulting in a sliced sphere
+* `min_phi`: the min phi that determines the cutoff at the north pole of the sphere
+* `max_phi`: the max phi that determined the cutoff at the south pole of the sphere
+
+## Sphere {current implementation}
+
+```
+sphere id (radius theta_max phi_min phi_max theta_segs phi_segs) endsphere
+```
+
+Defines a sphere.
+
+* radius`: the radius of the sphere.
+* ` -`: the max theta of any latitude, resulting in a sliced sphere.
+* `phi_min`: min phi that determines cutoff at the SOUTH pole of the sphere (phi=-90)
+* `phi_max`: max phi that determined cutoff at the NORTH pole of the sphere (phi=90)
+* `theta_segs`: the number of segments in the longitudinal direction.
+* `phi_segs`: the number of segments in the latitudinal direction.
+* ` -90 <= phi_min < phi_max <= 90 (degrees).` 
+* `radius, theta_segs, phi_segs > 0`
+* `0 <= theta_max <= 360`
+
+## newSphere
+
+```
+sphere 
+	id ( radius  long_max  latt_min  latt_max  segs_long  segs_latt  [brep  brep-type] ) 
+endsphere 
+```
+
+Defines a sphere more like a “globe” with its “rotation axis” along the z-axis.
+
+* `radius:  the radius of the sphere  {put most important geometrical parameters first}.
+* `long_max[e][f]: {<= 360}`: the max longitude at any latitude, resulting in a sliced “orange.” 
+* `latt_min[g][h]: {>= -90}`:   the min latitude, cutting off the South pole.
+* `latt_max[i][j]: {<=  90}`:   the max latitude, cutting off theNorth pole.
+* `segs_long[k][l]:  {>= 3}`:    the number of segments in the longitudinal direction.
+* `segs_latt[m][n]`:  {>= 2}:    the number of segments in the latitudinal direction.
+* `[brep  brep-type]`:   specify  NOME_TRIAS  or  NOME_QUADS  as in sweeps, etc.
+
+## Ellipsoid (Status: Up-to-date)
+```
+ellipsoid id ( radius[o][p]_x radius_y  long_max  latt_min  latt_max  segs_long  segs_latt ) endellipsoid
+```
+
+
+Defines a sphere more like a “globe” with its “rotation axis” along the z-axis.
+
+* `radius[q][r]_x`:  the radius of the ellipsoid in the x direction
+* `radius_y`:  the radius of the ellipsoid in the y direction
+* `long_max`: {<= 360}: the max longitude at any latitude, resulting in a sliced “orange.” 
+* `latt_min`: {>= -90}:   the min latitude, cutting off the South pole.
+* `latt_max`: {<=  90}:   the max latitude, cutting off the North pole.
+* `segs_long`:  {>= 3}:    the number of segments in the longitudinal direction.
+* `segs_latt`:  {>= 2}:    the number of segments in the latitudinal direction.
+
+## Torus (Status: Up-to-date)
+```
+torus id (rad_maj rad_min theta_max  phi_min  phi_max  segs_theta  segs_phi) endtorus
+```
+
+Defines a torus.
+
+* `rad_maj`: the major radius
+* `rad_min`: the minor radius of the outer ring.
+* `theta_max`: specified in degrees. The minor cross-section circle is swept starting at the x-axis and circles the z-axis by the angle theta until thetamax is reached (=< 360).
+* `phi_min`: starting angle in degrees around the minor circle. 
+* `phi_max`: terminating angle in degrees around the minor circle.
+* `0 <= phi_min < phi_max <= 360` (degrees).
+* `segs_theta`: the number of segments along the major radius.
+* `segs_phi`: the number of segments around the minor radius.
+
+> should we also allow:` [brep brep-type] `-- as in sweeps, etc
+
+## Torus Knot (Status: Up-to-date)
+```
+torusknot id (symm turns rad_maj rad_min rad_tube segs_circ segs_sweep) endtorusknot
+```
+
+Defines a torus knot.
+
+   * `symm`: sweeps through the donut hole = rotational symmetry of knot (+/- OK)
+   * `turns`: turns around the donut hole (+/- to reverse chirality.
+   * `rad_maj`: the major radius of the donut.
+   * `rad_min`: the minor donut radius (tube radius).
+   * `rad_tube`: radius of swept circle.  For rad_tube := 0, only the sweep path is output.
+   * `segs_circ`: the number of segments on the circular cross section.
+   * `segs_sweep`: the number of segments along the sweep path.
+
+> should we also allow: `[brep brep-type]` -- as in sweeps, etc
+
+## **Mobius Strip**  **(Status: current implementation does not use thickness. uses radius, twists, cuts, and segs)**
+
+```
+mobiusstrip id (radius twists cuts segs) endmobiusstrip
+```
+
+Defines a mobius strip with a specified number of twists and cuts.
+
+* radius: the width of the band. If there are multiple cuts, then radius = width of all sub-bands + width of all gaps between sub-bands.
+* twists: the number of twists in the mobius strip.
+* cuts: the number of cuts in the mobius strip band (cuts go parallel to the edges of the band). Gaps and sub-bands will all be of the same width. Sum of widths = radius.
+* segs: the number of segments around the band.
+
+> should we also allow: `[brep brep-type]` -- as in sweeps, etc
+
+## Dupin Cycle
+```
+dupin id (a b c d u v crosssec) enddupin
+```
+
+Defines a Dupin with specified number of cross sections
+   * `a`: Radius (x-y plane) of the donut sphere formed by the dupin
+   * `b`: Height (x-z plane) of the donut sphere formed by the dupin
+   * `c`: x to y radius of the donut sphere
+   * `d`: x to z radius of the donut sphere 
+   * `u`: x to y sphere angle 
+   * `v`: x to z sphere angle
+
+## General Cartesian Surface
+```
+gencartesiansurf id func func_string (x_min x_max y_min y_max x_segs y_segs) endgencartesiansurf
+```
+
+
+Defines a general surface based on a cartesian equation z = f(x,y) evaluated over specified axis bounds and number of segments.
+
+   * `x_min`: Lower bound of range in x-plane
+   * `x_max`: Upper bound of range in x-plane
+   * `y_min`: Lower bound of range in y-plane
+   * `y_max`: Upper bound of range in y-plane
+   * `x_segs`: Number of segments in x dimension.
+   * `y_segs`: Number of segments in y dimension.
+   * `func`: Keyword func is necessary to tell parser to parse func_string.
+   * `func_string`: Supplied function of form z = f(x,y). See necessary formatting below.
+
+Passed in func_string formatting:
+
+   * Surrounded by open and close brackets and without spaces
+         * Many operations are included, for example:
+                  * Man   * Basic operators are supported: +, -, *, /, %, ^
+            * Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+            * If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
+            * See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operations/functions/etc. are supported
+         * See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genCartesianSurfExample.nom for example usage
+
+## General Parametric Surface
+genparametricsurf id funcX funcX_string_x funcY funcY_string funcZ funcZ_string (u_min u_max v_min v_max u_segs v_segs) endgenparametricsurf
+Defines a general surface based on parametric equations x(u,v), y(u,v), and z(u,v) evaluated over specified axis bounds and number of segments in u and v.
+
+   * u_min: Lower bound of range in u-plane
+   * u_max: Upper bound of range in u-plane
+         * v_min: Lower bound of range in v-plane
+                  * v_max: Upper bound of range in v-plane
+         * u_segs: Number of segments in u dimension
+                  * v_segs: Number of segments in v dimension
+         * funcX: Keyword funcX is necessary to tell parser to parse funcX_string.
+                  * funcY: Keyword funcY is necessary to tell parser to parse funcY_string.
+         * funcZ: Keyword funcZ is necessary to tell parser to parse funcZ_string.
+                  * funcX_string: Function x(u,v). See necessary formatting below.
+         * funcY_string: Function y(u,v). See necessary formatting below.
+                  * funcZ_string: Function z(u,v). See necessary formatting below.
+Passed in funcX_string, funcY_string, and funcZ_string formatting:
+         * Surrounded by opened and closed brackets and without spaces
+                  * funcX_string, funcY_string, and funcZ_string take the form x(u,v), y(u,v), and z(u,v) respectively, where x, y, and z are each defined by a parametric function dependant on variables u and v.
+         * Many operations are included, for example:
+                  * Basic operators are supported: +, -, *, /, %, ^
+         * Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+                  * If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
+         * See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operations/functions/etc. are supported
+                  * See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genParametricSurfExample.nom  for example usage
