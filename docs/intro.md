@@ -25,4 +25,4 @@ JIPCAD has been made the tool for robustness and with features such as generaliz
 
 Sculpture by Tord Tengstrand |B-splines added           |intermediate construction step          |  completed construction | sharp subdivision applied
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-<img src="../static/img/docpic/im1.jpg" alt="drawing" width="200"/>   |  <img src="../static/img/docpic/im2.jpg" alt="drawing" width="200"/>  | <img src="../static/img/docpic/im3.jpg" alt="drawing" width="200"/>  | <img src="../static/img/docpic/im4.jpg" alt="drawing" width="200"/>  | <img src="../static/img/docpic/im5.jpg" alt="drawing" width="200"/> 
+<img src="../static/img/docpic/im1.jpg" alt="drawing" width="200"/>   |  <img src="../static/img/docpic/im2.jpg" alt="drawing" width="230"/>  | <img src="../static/img/docpic/im3.jpg" alt="drawing" width="150"/>  | <img src="../static/img/docpic/im4.jpg" alt="drawing" width="200"/>  | <img src="../static/img/docpic/im5.jpg" alt="drawing" width="200"/> 
