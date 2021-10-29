@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkjipcad=self.webpackChunkjipcad||[]).push([[792],{4556:function(e,n,t){t.r(n),t.d(n,{default:function(){return u}});var a=t(7294),c=t(3938);function u(){return a.createElement(c.Z,null,a.createElement("h1",null,"My React page"),a.createElement("p",null,"This is a React page"))}}}]);
