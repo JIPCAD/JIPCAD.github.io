@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>JIPCAD Blog</title>
+        <link>https://JIPCAD.github.io/blog</link>
+        <description>JIPCAD Blog</description>
+        <lastBuildDate>Mon, 01 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Welcome]]></title>
+            <link>https://JIPCAD.github.io/blog/welcome</link>
+            <guid>welcome</guid>
+            <pubDate>Mon, 01 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Welcome to the JIPCAD Exhibition Page, you are welcomed to post any of your exbihition here for the inspiration and entertainment of the whole JIPCAD community!]]></description>
+            <content:encoded><![CDATA[<p>Welcome to the JIPCAD Exhibition Page, you are welcomed to post any of your exbihition here for the inspiration and entertainment of the whole JIPCAD community!</p><p><img src="./lumpysphere.gif" alt="Docusaurus Plushie"/></p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Prof.Sequin]]></title>
+            <link>https://JIPCAD.github.io/blog/carlo-exhibition</link>
+            <guid>carlo-exhibition</guid>
+            <pubDate>Sat, 30 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[To be edited...]]></description>
+            <content:encoded><![CDATA[<p>To be edited...</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Xinyu Zhang]]></title>
+            <link>https://JIPCAD.github.io/blog/Xinyu-Zhang</link>
+            <guid>Xinyu-Zhang</guid>
+            <pubDate>Fri, 29 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[To be edited]]></description>
+            <content:encoded><![CDATA[<p>To be edited</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Samuel Speas]]></title>
+            <link>https://JIPCAD.github.io/blog/Samuel</link>
+            <guid>Samuel</guid>
+            <pubDate>Thu, 28 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[To be edited...]]></description>
+            <content:encoded><![CDATA[<p>To be edited...</p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
