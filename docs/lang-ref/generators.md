@@ -270,13 +270,13 @@ torusknot id (symm turns rad_maj rad_min rad_tube segs_circ segs_sweep) endtorus
 
 Defines a torus knot.
 
-   * `symm`: sweeps through the donut hole = rotational symmetry of knot (+/- OK)
-   * `turns`: turns around the donut hole (+/- to reverse chirality.
-   * `rad_maj`: the major radius of the donut.
-   * `rad_min`: the minor donut radius (tube radius).
-   * `rad_tube`: radius of swept circle.  For rad_tube := 0, only the sweep path is output.
-   * `segs_circ`: the number of segments on the circular cross section.
-   * `segs_sweep`: the number of segments along the sweep path.
+* `symm`: sweeps through the donut hole = rotational symmetry of knot (+/- OK)
+* `turns`: turns around the donut hole (+/- to reverse chirality.
+* `rad_maj`: the major radius of the donut.
+* `rad_min`: the minor donut radius (tube radius).
+* `rad_tube`: radius of swept circle.  For rad_tube := 0, only the sweep path is output.
+* `segs_circ`: the number of segments on the circular cross section.
+* `segs_sweep`: the number of segments along the sweep path.
 
 > should we also allow: `[brep brep-type]` -- as in sweeps, etc
 
@@ -301,62 +301,87 @@ dupin id (a b c d u v crosssec) enddupin
 ```
 
 Defines a Dupin with specified number of cross sections
-   * `a`: Radius (x-y plane) of the donut sphere formed by the dupin
-   * `b`: Height (x-z plane) of the donut sphere formed by the dupin
-   * `c`: x to y radius of the donut sphere
-   * `d`: x to z radius of the donut sphere 
-   * `u`: x to y sphere angle 
-   * `v`: x to z sphere angle
+* `a`: Radius (x-y plane) of the donut sphere formed by the dupin
+* `b`: Height (x-z plane) of the donut sphere formed by the dupin
+* `c`: x to y radius of the donut sphere
+* `d`: x to z radius of the donut sphere 
+* `u`: x to y sphere angle 
+* `v`: x to z sphere angle
 
 ## General Cartesian Surface
 ```
 gencartesiansurf id func func_string (x_min x_max y_min y_max x_segs y_segs) endgencartesiansurf
 ```
-
-
 Defines a general surface based on a cartesian equation z = f(x,y) evaluated over specified axis bounds and number of segments.
 
-   * `x_min`: Lower bound of range in x-plane
-   * `x_max`: Upper bound of range in x-plane
-   * `y_min`: Lower bound of range in y-plane
-   * `y_max`: Upper bound of range in y-plane
-   * `x_segs`: Number of segments in x dimension.
-   * `y_segs`: Number of segments in y dimension.
-   * `func`: Keyword func is necessary to tell parser to parse func_string.
-   * `func_string`: Supplied function of form z = f(x,y). See necessary formatting below.
+* `x_min`: Lower bound of range in x-plane
+* `x_max`: Upper bound of range in x-plane
+* `y_min`: Lower bound of range in y-plane
+* `y_max`: Upper bound of range in y-plane
+* `x_segs`: Number of segments in x dimension.
+* `y_segs`: Number of segments in y dimension.
+* `func`: Keyword func is necessary to tell parser to parse func_string.
+* `func_string`: Supplied function of form z = f(x,y). See necessary formatting below.
 
 Passed in func_string formatting:
 
-   * Surrounded by open and close brackets and without spaces
-         * Many operations are included, for example:
-                  * Man   * Basic operators are supported: +, -, *, /, %, ^
-            * Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
-            * If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
-            * See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operations/functions/etc. are supported
-         * See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genCartesianSurfExample.nom for example usage
+* Surrounded by open and close brackets and without spaces
+* Many operations are included, for example:
+* Man   * Basic operators are supported: +, -, *, /, %, ^
+* Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+* If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expressionfalse_expression)
+* See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on whatoperations/functions/etc. are supported
+* See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genCartesianSurfExample.nom for example usage
 
 ## General Parametric Surface
+```
 genparametricsurf id funcX funcX_string_x funcY funcY_string funcZ funcZ_string (u_min u_max v_min v_max u_segs v_segs) endgenparametricsurf
+```
 Defines a general surface based on parametric equations x(u,v), y(u,v), and z(u,v) evaluated over specified axis bounds and number of segments in u and v.
 
-   * u_min: Lower bound of range in u-plane
-   * u_max: Upper bound of range in u-plane
-         * v_min: Lower bound of range in v-plane
-                  * v_max: Upper bound of range in v-plane
-         * u_segs: Number of segments in u dimension
-                  * v_segs: Number of segments in v dimension
-         * funcX: Keyword funcX is necessary to tell parser to parse funcX_string.
-                  * funcY: Keyword funcY is necessary to tell parser to parse funcY_string.
-         * funcZ: Keyword funcZ is necessary to tell parser to parse funcZ_string.
-                  * funcX_string: Function x(u,v). See necessary formatting below.
-         * funcY_string: Function y(u,v). See necessary formatting below.
-                  * funcZ_string: Function z(u,v). See necessary formatting below.
+* u_min: Lower bound of range in u-plane
+* u_max: Upper bound of range in u-plane
+* v_min: Lower bound of range in v-plane
+* v_max: Upper bound of range in v-plane
+* u_segs: Number of segments in u dimension
+* v_segs: Number of segments in v dimension
+* funcX: Keyword funcX is necessary to tell parser to parse funcX_string.
+* funcY: Keyword funcY is necessary to tell parser to parse funcY_string.
+* funcZ: Keyword funcZ is necessary to tell parser to parse funcZ_string.
+* funcX_string: Function x(u,v). See necessary formatting below.
+* funcY_string: Function y(u,v). See necessary formatting below.
+* funcZ_string: Function z(u,v). See necessary formatting below.
 Passed in funcX_string, funcY_string, and funcZ_string formatting:
-         * Surrounded by opened and closed brackets and without spaces
-                  * funcX_string, funcY_string, and funcZ_string take the form x(u,v), y(u,v), and z(u,v) respectively, where x, y, and z are each defined by a parametric function dependant on variables u and v.
-         * Many operations are included, for example:
-                  * Basic operators are supported: +, -, *, /, %, ^
-         * Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
-                  * If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
-         * See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operations/functions/etc. are supported
-                  * See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genParametricSurfExample.nom  for example usage
+* Surrounded by opened and closed brackets and without spaces
+* funcX_string, funcY_string, and funcZ_string take the form x(u,v), y(u,v), and z(u,v) respectively, where x, y, and z are each defined by a parametric function dependant on variables u and v.
+* Many operations are included, for example:
+  * Basic operators are supported: +, -, *, /, %, ^
+  * Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+  * If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
+  * See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operationsfunctions/   etc. are supported
+* See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genParametricSurfExample.nom  for example usage
+
+## General Implicit Surface
+```
+genimplicitsurf id func func_string (x_min x_max y_min y_max z_min z_max x_segs y_segs z_segs) endgenimplicitsurf
+```
+Defines a general surface based on an implicit equation f(x,y,z) = b, where b is a given isolevel. It is evaluated over the specified axis bounds and number of segments.
+* x_min: Lower bound of range in x-plane
+* x_max: Upper bound of range in x-plane
+* y_min: Lower bound of range in y-plane
+* y_max: Upper bound of range in y-plane
+* z_min: Lower bound of range in z-plane
+* z_max: Upper bound of range in z-plane
+* x_segs: Number of segments in x dimension
+* y_segs: Number of segments in y dimension
+* z_segs: Number of segments in z dimension
+* func: Keyword func is necessary to tell parser to parse func_string.
+* func_string: Supplied function of form f(x,y,z) - b, where b is the isolevel (func_string is assuming user has modified input expression so that f(x,y,z) = b is rewritten as f(x,y,z) - b = 0, with “= 0” omitted from func_string). See necessary formatting below.
+Passed in func_string formatting:
+* Surrounded by opened and closed brackets and without spaces
+* Many operations are included, for example:
+* Basic operators are supported: +, -, *, /, %, ^
+* Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+* If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expressionfalse_expression)
+* See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operationsfunctions/etc. are supported
+* See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genImplicitSurfExample.nom for example usage

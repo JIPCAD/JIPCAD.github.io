@@ -15,6 +15,7 @@ const config = {
   favicon: 'img/nome.png',
   organizationName: 'JIPCAD', // Usually your GitHub org/user name.
   projectName: 'JIPCAD.github.io', // Usually your repo name.
+  deploymentBranch: "deploy",
 
   presets: [
     [
@@ -57,7 +58,6 @@ const config = {
           },
           {to: '/blog', label: 'Exhibition', position: 'left'},
           {to: '/download', label: 'Download', position: 'left'},
-          {to: 'https://www.youtube.com/watch?v=Y1nnXhYHG5E', label: '🎉Happy Birthday Professor Carlo Sequin🎉', position: 'left'},
           {
             href: 'https://github.com/JIPCAD/NOME3',
             label: 'GitHub',
@@ -73,15 +73,15 @@ const config = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/tutorial',
+                to: '/docs/tutorial/user',
               },
               {
                 label: 'Language Reference',
-                to: '/docs/lang-ref',
+                to: '/docs/lang-ref/configuration',
               },
               {
                 label: 'Compiling',
-                to: '/docs/compiling',
+                to: '/docs/compiling/mac-compile',
               },
             ],
           },
@@ -94,7 +94,7 @@ const config = {
               },
             ],
           },
-          {
+          { 
             title: 'More',
             items: [
               {
@@ -104,6 +104,10 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/JIPCAD/NOME3',
+              },
+              {
+                label: 'Editor\'s Wiki',
+                href: 'https://github.com/JIPCAD/JIPCAD.github.io/wiki',
               },
             ],
           },

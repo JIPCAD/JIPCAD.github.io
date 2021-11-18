@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Complex Scene Generation',
-    Svg: require('../../static/img/face1.svg').default,
+    Svg: require('/img/face1.svg').default,
     description: (
       <>
         The JIPCAD software is accompanied by friendly user interface and 
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: 'Apply Math in Modeling',
-    Svg: require('../../static/img/face3.svg').default,
+    Svg: require('/img/face3.svg').default,
     description: (
       <>
         JIPCAD has powerful math parsing capability embedded inside, generate elegant 
@@ -25,7 +25,7 @@ const FeatureList = [
   },
   {
     title: 'Easy Export',
-    Svg: require('../../static/img/face4.svg').default,
+    Svg: require('/img/face4.svg').default,
     description: (
       <>
         Export the scene to the general 3D format like STL for 3D printing
