@@ -38,7 +38,7 @@ Fortunately, if you just want to add a new shape generator, such as a sphere gen
 
 ![img](https://lh3.googleusercontent.com/eC16P0ndzZ_yJJRnBo9LCdjtdNwB7T7hgS5pZXBZA6ShYImaS1v7YyXyk11Ibe8X_0lBkLTPakSs6YsLfoQkAtrxIthxICC6KvjEB0UOMiXjawPZgH2Y3rEil1J88SD2KkypG5_w9aUPibD7hA)
 
-## **Between Document and Scene**
+## Between Document and Scene
 
 After we have constructed the AST using the **Document** files, we can construct the scene using the AST. The code for this AST-to-Scene conversion is implemented in ASTSceneAdapter.cpp. Understanding this particular file will give you a very good understanding of how the data flows from **Document** to **Scene** and how the scene is set up. 
 
@@ -156,7 +156,7 @@ The **Rendering** files are used for creating the GUI and rendering, aka the Qtf
 
 The InteractiveMesh contain a reference to the associated entity through a SceneTreeNode and has additional attributes such as material property, vertex selection interaction, etc. I think UpdateGeometry() is the final call used to add the interactive meshes into the display.
 
-## **MainWindow.cpp**
+## MainWindow.cpp
 
 Let’s now take a look at a few of the key functions within **MainWindow.cpp**, the center of the codebase. Starting at the very top of the file, inside the CMainWindow constructor, we setup the UI and load an empty NOME file into the scene. Then, we have a bunch of on_action triggers. As their name suggests, these functions get ran when the button gets triggered. If you’re curious how these are tracked or represented in the UI, look at the MainWindow.ui file. If you want to improve our user interface design or add new buttons, this UI file is important.
 
@@ -257,3 +257,46 @@ void CMobiusStrip::UpdateEntity()
     }
 }
 ```
+
+## Error Reporting Module
+
+(Go to NOME3/Application/Parsing/SourceManager.CPP). There, you will find the `ReportErrors` and `CheckStatement` Methods, the two key methods in building an instance checker. 
+
+`ReportErrors` Method parses the nom.g4 file, and tokenizes the code so it can be parsed by the CheckStatement Methods
+
+`CheckStatement` Method goes through, line-by-line, the code looking for key phrases. If it finds an illegal phrase before it finds a legal phrase, it immediately errors. 
+
+### Video Tutorial
+Checkout the error reporting [video tutorial](/tutorial_videos) for developers.
+
+### Important Variables: 
+```c++
+std::vector<std::vector<std::string>> parsedcode -> 2d Vector which contains each word for the code by line numbers. 
+std::unordered_map<std::string, std::string> shapemap -> Hashmap that maps each phrase to its endphrase (circle -> endcircle) 
+std::unordered_map<std::string, std::string> idmap; -> Map of IDs
+std::unordered_map<std::string, std::string> referencemap; -> Map of References (store anything you have to remember other than ids) 
+```
+
+### Building Instance Syntax Checkers:
+
+ Starting at line 212, There is a place where you can call your instance syntax checkers. Each checker takes in the parsed code, idmap, referencemap, the ith and jth location of where you are currently checking, and the shapemap. 
+Your function should either return {error} or a vector of the ith and jth location of where your syntax checker found the endphrases. There are already a lot of syntax checkers implemented, you can use things like CheckInstance() to check an instance if your syntax checker comes up to an instance for example. 
+These functions are implemented for you 
+
+```c++
+balancedbracket(std::string)
+isNumber(std::string)
+checkcount(std::string, char) -> counts instances of char in string
+CheckSubdivision(std::vector<std::vector<std::string>> parsedcode, std::unordered_map<std::string, std::string> &idmap, int i, int j, std::unordered_map<std::string, std::string> shapemap)
+CheckInstance(std::vector<std::vector<std::string>> parsedcode, std::unordered_map<std::string, std::string> &idmap, int i, int j, std::unordered_map<std::string, std::string> shapemap)
+CheckBank(std::vector<std::vector<std::string>> parsedcode, std::unordered_map<std::string, std::string> &referencemap, std::unordered_map<std::string, std::string> &idmap, int i, int j, std::unordered_map<std::string, std::string> shapemap)
+CheckGroup(std::vector<std::vector<std::string>> parsedcode, std::unordered_map<std::string, std::string> &idmap, int i, int j, std::unordered_map<std::string, std::string> shapemap)
+```
+ 
+In your function, you should be checking for 
+* Correct Number of phrases
+* Valid IDs (use idmap) 
+* Appropriate use of optional phrases
+* No reserved characters
+* No illegal phrases (only expected ones)
+* Balanced Brackets

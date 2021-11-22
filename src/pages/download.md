@@ -4,7 +4,24 @@ title: Markdown page example
 
 # JIPCAD Software Download
 
-## Version 3.0.18
+## Version 3.1.2
+New Feature:
+* Frontface toggling
+* Wireframe mode after merging and subdivision
+
+### Windows
+[Click Here To Download](https://ci.appveyor.com/api/buildjobs/42w2x2j4tg0gt833/artifacts/JIPCAD-3.0.3-win64.zip)
+
+
+## Version 3.1.1
+New Feature:
+* Bug fixing&add robustness--polyline bug fixed
+
+### Windows
+[Click Here To Download](https://ci.appveyor.com/api/buildjobs/4fa3xmkf3bapol1y/artifacts/JIPCAD-3.0.2-win64.zip)
+
+
+## Version 3.1.0
 New Feature:
 * BackFace toggle
 * Wireframe mode
