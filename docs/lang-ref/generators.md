@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Generators
 
-## **Point** **(Status: Up-to-date)**
+## Point
 
 ```
 point id (x y z) endpoint
@@ -12,15 +12,25 @@ point id (x y z) endpoint
 
 Defines a point at the specified x, y, and z coordinates.
 
-## **Controlpoint**
+## Controlpoint
 
 ```
-controlpoint id  point id scale(sx sy sz) rotate(rx ry rz) endcontrolpoint
+controlpoint id  point p_id  [scale (sx sy sz)] [rotate (rx ry rz)] [crosssection crosssection_id] [reverse] endcontrolpoint
 ```
 
-Enhances a point (id) with additional parameters controlling the non-uniform scaling and rotation (rz) and tilting (rx, ry) of the cross section swept along a path.
+Enhances a point (`p_id`) with additional parameters controlling the non-uniform scaling (`sx`, `sy`) and rotation (`rz`) and tilting (`rx`, `ry`) of the cross section swept along a path. (See **Sweep**)
 
-## **Polyline** **(Status: surface not implemented)**
+* `(sx sy sz)`: scales the cross-section located at the controlpoint by a factor of `sx` and `sy`. (Note: `sz` is irrelevant)
+* `(rx ry rz)`: 
+	* `rz`: angle about which the cross section located at the controlpoint is rotated
+	* `rx`, `ry`: angles about which the cross section located at the controlpoint is tilted
+* `crosssection_id`: the cross section to be defined at this controlpoint 
+* `"reverse"`: reverses the sweep at the controlpoint
+
+**Note:** Interpolation rules for scaling and rotation of cross sections are determined by the path type's interpolation rules. See **Sweep** `warp`.  
+**Note:** the `crosssection` parameter should be used in a path for the **Sweep Morph** generator.
+
+## Polyline 
 
 ```
 polyline id ( point_idlist ) [closed] [surface surface_id] endpolyline
@@ -30,7 +40,32 @@ Defines a polyline, a chain of piecewise linear segments. You can optionally mak
 
 * `point_idlist`: a list of points of the form `point1` `point2` ...
 
-## **Face** **(Status: Up-to-date)**
+## Bezier Curve
+
+```
+beziercurve id ( point_idlist ) segs {segs} endbeziercurve
+```
+
+Defines a Bezier curve.
+
+* `point_idlist`: a list of points of the form `point1` `point2` ...
+* `{segs}`: the number of segments into which the Bezier curve is sampled.
+
+## B-Spline
+
+```
+bspline id order {order} (point_idlist) segs {segs} endbspline
+```
+
+Defines a B-spline.
+
+* `{order}`: integer that sets the B-spline's DEGREE to be `{order}-1`.
+* `point_idlist`: a list of points of the form `point1` `point2` ...
+* `{segs}`: the number of segments into which the B-spline is sampled.
+* The number of control points must be greater than or equal to `{order}`
+* For closed curves, there must be at least `{order}-1` control points.
+
+## Face
 
 ```
 face id (point_idlist) [surface surface_id] endface
@@ -40,32 +75,7 @@ Defines a face from a list of points. Front face uses counter-clockwise winding.
 
 * `point_idlist`: a list of points of the form `point1` `point2` ...
 
-## **Bezier Curve** **(Status: Up-to-date)**
-
-```
-beziercurve id (point_idlist) segs  endbeziercurve
-```
-
-Defines a Bezier curve.
-
-* `point_idlist`: a list of points of the form `point1` `point2` ...
-* `segs`: the number of segments into which the Bezier curve is sampled.
-
-## **B-Spline** **(Status: Up-to-date)**
-
-```
-bspline id order (point_idlist) segs endbspline
-```
-
-Defines a B-spline.
-
-* `{order}`: integer that sets the B-spline's DEGREE to be `{order}-1`.
-* `point_idlist`: a list of points of the form `point1` `point2` ...
-* `segs`: the number of segments into which the B-spline is sampled.
-* The number of control points must be greater than or equal to `{order}`
-* For closed curves, there must be at least `{order}-1` control points.
-
-## **Mesh** **(Status: Up-to-date)**
+## Mesh
 
 ```
 mesh id 
@@ -82,12 +92,42 @@ endface endmesh
 Also creates a collection of faces, which can optionally be colored. Faces in a mesh can then be referred to in the rest of the program via a hierarchical name: id.faceId. Variable names must be unique within a mesh.
 
 * `faceId`: the name of the face
-
 * `point_idlist`: a list of points of the form `point1` `point2` ...
-
 * `pointId`: the name of the point
 
-## **Circle** **(Status: Up-to-date)**
+## Sweep
+
+A sweep describes the result of sweeping a `crosssection` along a `path`. 
+```
+sweep id  
+  crosssection  id [reverse] [begincap] [endcap]  endcrosssection
+  path  id [mintorsion] [azimuth a_angle] [twist t_angle]  endpath
+  [brep brep-type]
+endsweep
+```
+
+* a **crosssection** - can be a polyline, circle, beziercurve, or bspline.
+* `“reverse”`:  if present, flips the orientation of the crosssection, turning the generated brep-surface inside out.
+* `“begincap”`:  if present, draw the starting face (with outward normal).
+* `“endcap”`:  if present, draw the ending face (with outward normal
+
+
+* a **path** - can be a polyline, circle, beziercurve, or bspline.
+* Each path has a set of Frenet frames (tangents, normals, & binormals) that are used to determine how the crosssection will twist along the path. The user can control the twist in four ways and these options are additive in the order given below:
+	* `mintorsion`: minimizes the twisting of the intrinsic Frenet frame.
+	* `azimuth`: angle=`a_angle` about the tangent that all Frenet frames will be rotated by.
+	* `twist`: angle=`t_angle` about the tangent that specifies the overall amount of twist from the first Frenet frame to the last.
+	* `warp`: sets each twist angle explicitly at specified controlpoints in the path. (See **Controlpoint**)
+		* These controlpoints also permit rotating and non-uniformly scaling of the crosssection at these locations.  Regular points act like control points with no additional transformations.  At any sample points between adjacent controlpoint, the transformation variables are interpolated in the same way that the x, y, and z-coordinates are being interpolated. (e.g. by a cubic polynomial for the cubic Bspline)
+* `brep_type`: can be either TRIANGLES (=default) or QUADRILATERALS.
+
+## Sweep Morph
+In progress
+
+## Sweep Morph Visualizer
+In progress
+
+## Circle
 
 ```
 circle id (radius segs) endcircle
@@ -108,16 +148,12 @@ Disk id (radius theta_max theta_segs) enddisk
 Defines a (partial) disk.
 
 * `radius`: the radius of the disk.
-
 * `theta_max`: the max theta angle (<= 360 degrees), resulting in a wedge.
-
 * `theta_segs`: the number of segments in the wedge perimeter.
-
 * `radius`,` theta_segs` cannot be negative.
-
 * `Theta_max` must be between 0 ~ 360 degrees.
 
-## **Cylinder**
+## Cylinder
 
 ```
 cylinder id (radius height theta_max theta_segs [botcap] [topcap] ) endcylinder
@@ -134,7 +170,7 @@ Defines a (wedge of a) cylinder.
 * `Radius`, `height`, `theta_segs` cannot be negative.
 * `Theta_max` must be between 0 ~ 360 degrees.
 
-## **Cone** **(this command is not implemented)**
+## Cone *(this command is not implemented)*
 
 ```
 cone id (radius height hgt_max theta_max theta_segs [botcap] [topcap] ) endcone
@@ -150,7 +186,7 @@ Defines a (possibly truncated) cone.
 * `“botcap”`: if present, draw the bottom face (with downward normal).
 * `“topcap”`: if present, draw the top face on a truncated cone.2
 
-## **Funnel**
+## Funnel
 
 ```
 funnel id (radius ratio height segs) endfunnel
@@ -164,7 +200,7 @@ Defines a funnel, i.e. the mantle of a truncated cone.
 * `segs`: the number of segments around the equator.
 * `radius`, `ratio`,` height`, `segs` cannot be negative.
 
-## **Tunnel**
+## Tunnel
 
 ```
 tunnel id (radius ratio height segs) endtunnel
@@ -178,22 +214,7 @@ Defines a tunnel made from two Funnels, glued bottom-to-bottom.
 * `segs`: the number of segments around the equator.
 * `radius`,` ratio`, `height`, `segs` cannot be negative.
 
-## **Sphere {older implementation}**
-
-```
-sphere id (num_sides radius num_rotation max_theta min_phi max_phi) endsphere
-```
-
-Defines a sphere.
-
-* `num_sides`: the number of line segments in the latitudinal direction
-* `radius`: the radius of the sphere
-* `num_rotation`: the number of line segments in the longitudinal direction
-* `max_theta`: the max theta of any latitude, resulting in a sliced sphere
-* `min_phi`: the min phi that determines the cutoff at the north pole of the sphere
-* `max_phi`: the max phi that determined the cutoff at the south pole of the sphere
-
-## Sphere {current implementation}
+## Sphere
 
 ```
 sphere id (radius theta_max phi_min phi_max theta_segs phi_segs) endsphere
@@ -201,8 +222,8 @@ sphere id (radius theta_max phi_min phi_max theta_segs phi_segs) endsphere
 
 Defines a sphere.
 
-* radius`: the radius of the sphere.
-* ` -`: the max theta of any latitude, resulting in a sliced sphere.
+* `radius`: the radius of the sphere.
+* `theta_max`: the max theta of any latitude, resulting in a sliced sphere.
 * `phi_min`: min phi that determines cutoff at the SOUTH pole of the sphere (phi=-90)
 * `phi_max`: max phi that determined cutoff at the NORTH pole of the sphere (phi=90)
 * `theta_segs`: the number of segments in the longitudinal direction.
@@ -211,7 +232,7 @@ Defines a sphere.
 * `radius, theta_segs, phi_segs > 0`
 * `0 <= theta_max <= 360`
 
-## newSphere
+## newSphere *(this command is not implemented)*
 
 ```
 sphere 
@@ -221,19 +242,19 @@ endsphere
 
 Defines a sphere more like a “globe” with its “rotation axis” along the z-axis.
 
-* `radius:  the radius of the sphere  {put most important geometrical parameters first}.
+* `radius`:  the radius of the sphere  {put most important geometrical parameters first}.
 * `long_max[e][f]: {<= 360}`: the max longitude at any latitude, resulting in a sliced “orange.” 
 * `latt_min[g][h]: {>= -90}`:   the min latitude, cutting off the South pole.
 * `latt_max[i][j]: {<=  90}`:   the max latitude, cutting off theNorth pole.
 * `segs_long[k][l]:  {>= 3}`:    the number of segments in the longitudinal direction.
-* `segs_latt[m][n]`:  {>= 2}:    the number of segments in the latitudinal direction.
+* `segs_latt[m][n]:  {>= 2}`:    the number of segments in the latitudinal direction.
 * `[brep  brep-type]`:   specify  NOME_TRIAS  or  NOME_QUADS  as in sweeps, etc.
 
-## Ellipsoid (Status: Up-to-date)
+## Ellipsoid
+
 ```
 ellipsoid id ( radius[o][p]_x radius_y  long_max  latt_min  latt_max  segs_long  segs_latt ) endellipsoid
 ```
-
 
 Defines a sphere more like a “globe” with its “rotation axis” along the z-axis.
 
@@ -245,7 +266,8 @@ Defines a sphere more like a “globe” with its “rotation axis” along the 
 * `segs_long`:  {>= 3}:    the number of segments in the longitudinal direction.
 * `segs_latt`:  {>= 2}:    the number of segments in the latitudinal direction.
 
-## Torus (Status: Up-to-date)
+## Torus
+
 ```
 torus id (rad_maj rad_min theta_max  phi_min  phi_max  segs_theta  segs_phi) endtorus
 ```
@@ -263,7 +285,8 @@ Defines a torus.
 
 > should we also allow:` [brep brep-type] `-- as in sweeps, etc
 
-## Torus Knot (Status: Up-to-date)
+## Torus Knot
+
 ```
 torusknot id (symm turns rad_maj rad_min rad_tube segs_circ segs_sweep) endtorusknot
 ```
@@ -280,7 +303,7 @@ Defines a torus knot.
 
 > should we also allow: `[brep brep-type]` -- as in sweeps, etc
 
-## **Mobius Strip**  **(Status: current implementation does not use thickness. uses radius, twists, cuts, and segs)**
+## Mobius Strip  *(Status: current implementation does not use thickness. uses radius, twists, cuts, and segs)*
 
 ```
 mobiusstrip id (radius twists cuts segs) endmobiusstrip
@@ -296,6 +319,7 @@ Defines a mobius strip with a specified number of twists and cuts.
 > should we also allow: `[brep brep-type]` -- as in sweeps, etc
 
 ## Dupin Cycle
+
 ```
 dupin id (a b c d u v crosssec) enddupin
 ```
@@ -309,6 +333,7 @@ Defines a Dupin with specified number of cross sections
 * `v`: x to z sphere angle
 
 ## General Cartesian Surface
+
 ```
 gencartesiansurf id func func_string (x_min x_max y_min y_max x_segs y_segs) endgencartesiansurf
 ```
@@ -320,68 +345,74 @@ Defines a general surface based on a cartesian equation z = f(x,y) evaluated ove
 * `y_max`: Upper bound of range in y-plane
 * `x_segs`: Number of segments in x dimension.
 * `y_segs`: Number of segments in y dimension.
-* `func`: Keyword func is necessary to tell parser to parse func_string.
+* `func`: Keyword `func` is necessary to tell parser to parse `func_string`.
 * `func_string`: Supplied function of form z = f(x,y). See necessary formatting below.
 
-Passed in func_string formatting:
+Passed in `func_string` formatting:
 
 * Surrounded by open and close brackets and without spaces
 * Many operations are included, for example:
-* Man   * Basic operators are supported: +, -, *, /, %, ^
-* Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
-* If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expressionfalse_expression)
-* See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on whatoperations/functions/etc. are supported
+	* Basic operators are supported: +, -, \*, /, %, ^
+	* Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+	* If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
+	* See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operations/functions/etc. are supported
 * See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genCartesianSurfExample.nom for example usage
 
 ## General Parametric Surface
+
 ```
 genparametricsurf id funcX funcX_string_x funcY funcY_string funcZ funcZ_string (u_min u_max v_min v_max u_segs v_segs) endgenparametricsurf
 ```
 Defines a general surface based on parametric equations x(u,v), y(u,v), and z(u,v) evaluated over specified axis bounds and number of segments in u and v.
 
-* u_min: Lower bound of range in u-plane
-* u_max: Upper bound of range in u-plane
-* v_min: Lower bound of range in v-plane
-* v_max: Upper bound of range in v-plane
-* u_segs: Number of segments in u dimension
-* v_segs: Number of segments in v dimension
-* funcX: Keyword funcX is necessary to tell parser to parse funcX_string.
-* funcY: Keyword funcY is necessary to tell parser to parse funcY_string.
-* funcZ: Keyword funcZ is necessary to tell parser to parse funcZ_string.
-* funcX_string: Function x(u,v). See necessary formatting below.
-* funcY_string: Function y(u,v). See necessary formatting below.
-* funcZ_string: Function z(u,v). See necessary formatting below.
-Passed in funcX_string, funcY_string, and funcZ_string formatting:
+* `u_min`: Lower bound of range in u-plane
+* `u_max`: Upper bound of range in u-plane
+* `v_min`: Lower bound of range in v-plane
+* `v_max`: Upper bound of range in v-plane
+* `u_segs`: Number of segments in u dimension
+* `v_segs`: Number of segments in v dimension
+* `funcX`: Keyword `funcX` is necessary to tell parser to parse `funcX_string`.
+* `funcY`: Keyword `funcY` is necessary to tell parser to parse `funcY_string`.
+* `funcZ`: Keyword `funcZ` is necessary to tell parser to parse `funcZ_string`.
+* `funcX_string`: Function x(u,v). See necessary formatting below.
+* `funcY_string`: Function y(u,v). See necessary formatting below.
+* `funcZ_string`: Function z(u,v). See necessary formatting below.
+
+Passed in `funcX_string`, `funcY_string`, and `funcZ_string` formatting:
+
 * Surrounded by opened and closed brackets and without spaces
-* funcX_string, funcY_string, and funcZ_string take the form x(u,v), y(u,v), and z(u,v) respectively, where x, y, and z are each defined by a parametric function dependant on variables u and v.
+* `funcX_string`, `funcY_string`, and `funcZ_string` take the form x(u,v), y(u,v), and z(u,v) respectively, where x, y, and z are each defined by a parametric function dependant on variables u and v.
 * Many operations are included, for example:
-  * Basic operators are supported: +, -, *, /, %, ^
-  * Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
-  * If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
-  * See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operationsfunctions/   etc. are supported
+	* Basic operators are supported: +, -, \*, /, %, ^
+	* Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+	* If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
+	* See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operations/functions/etc. are supported
 * See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genParametricSurfExample.nom  for example usage
 
 ## General Implicit Surface
+
 ```
 genimplicitsurf id func func_string (x_min x_max y_min y_max z_min z_max x_segs y_segs z_segs) endgenimplicitsurf
 ```
+
 Defines a general surface based on an implicit equation f(x,y,z) = b, where b is a given isolevel. It is evaluated over the specified axis bounds and number of segments.
-* x_min: Lower bound of range in x-plane
-* x_max: Upper bound of range in x-plane
-* y_min: Lower bound of range in y-plane
-* y_max: Upper bound of range in y-plane
-* z_min: Lower bound of range in z-plane
-* z_max: Upper bound of range in z-plane
-* x_segs: Number of segments in x dimension
-* y_segs: Number of segments in y dimension
-* z_segs: Number of segments in z dimension
-* func: Keyword func is necessary to tell parser to parse func_string.
-* func_string: Supplied function of form f(x,y,z) - b, where b is the isolevel (func_string is assuming user has modified input expression so that f(x,y,z) = b is rewritten as f(x,y,z) - b = 0, with “= 0” omitted from func_string). See necessary formatting below.
-Passed in func_string formatting:
+* `x_min`: Lower bound of range in x-plane
+* `x_max`: Upper bound of range in x-plane
+* `y_min`: Lower bound of range in y-plane
+* `y_max`: Upper bound of range in y-plane
+* `z_min`: Lower bound of range in z-plane
+* `z_max`: Upper bound of range in z-plane
+* `x_segs`: Number of segments in x dimension
+* `y_segs`: Number of segments in y dimension
+* `z_segs`: Number of segments in z dimension
+* `func`: Keyword `func` is necessary to tell parser to parse `func_string`.
+* `func_string`: Supplied function of form f(x,y,z) - b, where b is the isolevel (`func_string` is assuming user has modified input expression so that f(x,y,z) = b is rewritten as f(x,y,z) - b = 0, with “= 0” omitted from `func_string`). See necessary formatting below.
+
+Passed in `func_string` formatting:
 * Surrounded by opened and closed brackets and without spaces
 * Many operations are included, for example:
-* Basic operators are supported: +, -, *, /, %, ^
-* Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
-* If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expressionfalse_expression)
-* See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operationsfunctions/etc. are supported
+	* Basic operators are supported: +, -, \*, /, %, ^
+	* Mathematical functions are supported: avg(), max(), abs(), exp(), log(), sin(), cosh(), etc.
+	* If and nested-if statements are also supported and take the form z = f(x,y) = if(condition,true_expression,false_expression)
+	* See https://github.com/ArashPartow/exprtk readme.txt Section 01 and Section 08 for more information on what operations/functions/etc. are supported
 * See https://github.com/randyfan/NOME3/blob/master/ExampleNOMEFiles/genImplicitSurfExample.nom for example usage
