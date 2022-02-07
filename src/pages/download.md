@@ -4,6 +4,14 @@ title: Markdown page example
 
 # JIPCAD Software Download
 
+## Version 3.1.3
+New Feature:
+* Fix sweep cut features
+
+
+### Windows
+[Click Here To Download](https://ci.appveyor.com/api/buildjobs/xw0b23ddqwahxnr7/artifacts/JIPCAD-3.0.19-win64.zip)
+
 ## Version 3.1.2
 New Feature:
 * Frontface toggling
