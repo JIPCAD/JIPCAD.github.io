@@ -86,7 +86,7 @@ mesh id
 	face faceId1 ( point_idlist1 ) [surface surface_id] endface 
 	... 
 	face faceIdN ( point_idlistN) [surface surface_id] endface
-endface endmesh
+endmesh
 ```
 
 Also creates a collection of faces, which can optionally be colored. Faces in a mesh can then be referred to in the rest of the program via a hierarchical name: id.faceId. Variable names must be unique within a mesh.
@@ -101,31 +101,60 @@ A sweep describes the result of sweeping a `crosssection` along a `path`.
 ```
 sweep id  
   crosssection  id [reverse] [begincap] [endcap]  endcrosssection
-  path  id [mintorsion] [azimuth a_angle] [twist t_angle]  endpath
+  path  id [mintorsion] [azimuth a_angle] [twist t_angle] [cutbegin] [cutend]  endpath
   [brep brep-type]
 endsweep
 ```
 
-* a **crosssection** - can be a polyline, circle, beziercurve, or bspline.
+**crosssection** - can be a polyline, circle, beziercurve, or bspline.
 * `“reverse”`:  if present, flips the orientation of the crosssection, turning the generated brep-surface inside out.
 * `“begincap”`:  if present, draw the starting face (with outward normal).
 * `“endcap”`:  if present, draw the ending face (with outward normal
 
 
-* a **path** - can be a polyline, circle, beziercurve, or bspline.
+**path** - can be a polyline, circle, beziercurve, or bspline.
 * Each path has a set of Frenet frames (tangents, normals, & binormals) that are used to determine how the crosssection will twist along the path. The user can control the twist in four ways and these options are additive in the order given below:
 	* `mintorsion`: minimizes the twisting of the intrinsic Frenet frame.
 	* `azimuth`: angle=`a_angle` about the tangent that all Frenet frames will be rotated by.
 	* `twist`: angle=`t_angle` about the tangent that specifies the overall amount of twist from the first Frenet frame to the last.
 	* `warp`: sets each twist angle explicitly at specified controlpoints in the path. (See **Controlpoint**)
 		* These controlpoints also permit rotating and non-uniformly scaling of the crosssection at these locations.  Regular points act like control points with no additional transformations.  At any sample points between adjacent controlpoint, the transformation variables are interpolated in the same way that the x, y, and z-coordinates are being interpolated. (e.g. by a cubic polynomial for the cubic Bspline)
-* `brep_type`: can be either TRIANGLES (=default) or QUADRILATERALS.
+* `cutbegin`: if present, does not draw the first segment of the sweep
+* `cutend`: if present, does not draw the last segment of the sweep
+
+`brep_type`: can be either TRIANGLES (=default) or QUADRILATERALS.
 
 ## Sweep Morph
-In progress
 
+```
+sweepmorph id 
+    [begincap] [endcap]
+    path  id [mintorsion] [azimuth a_angle] [twist t_angle] [cutbegin] [cutend]  endpath
+endsweepmorph
+```
+Linearly interpolates between cross sections that are specified at [control points](#controlpoint).
+
+* See [**Sweep**](#sweep) for information on the flags.
+* If a `crosssection` is defined at only one control point, the result will be a generic Sweep with that `crosssection`.
+* Linear interpolations of cross sections are performed between subsequent control points where cross sections are specified.
+* Points without `crosssection` specifications and are...
+    * before the first control point with a specified `crosssection` will adopt this first `crosssection`.
+    * after the last control point with a specified `crosssection` will adopt this last `crosssection`.
+   
 ## Sweep Morph Visualizer
-In progress
+
+```
+morphvisualizer id 
+    sweep sweep_id
+    index (seg_index)
+endmorphvisualizer
+```
+Displays the cross section of a Sweep at index `seg_index`.
+
+* `sweep_id`: the sweep.
+* `seg_index`: the index of the cross section to display.
+
+**Note**: `sweep_id` need not be a Sweep Morph. The visualizer works for any sweep and will display cross sections with scales and cross section morphs applied. Rotations, twists, and azimuth changes in a sweep are *not* reflected in the morph visualizer.
 
 ## Circle
 
