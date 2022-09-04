@@ -25,20 +25,51 @@ Generators and more-complex shapes (ex. sweeps, combinations of generators, etc.
 ## NOME Language Example
 An example of the interplay between meshes, groups, and instances can be seen here:
 ```markdown
-point p1 (0 2 1) endpoint
-point p2 (1 0 1) endpoint
-point p3 (-1 0 1) endpoint
+## NOME Example (scaled open cube)
 
-mesh triangle
-    face f1 (p1 p2 p3) endface
+## 2022/09/03
+#################################################################################
+
+surface R color (1 0 0) endsurface     # Red
+surface O color (0.9 0.6 0) endsurface # Orange
+surface Y color (1 1 0) endsurface     # Yellow
+surface L color (0.6 0.8 0) endsurface # Lime
+surface G color (0 0.9 0) endsurface   # Green
+surface A color (0 0.9 0.7) endsurface # Aqua
+surface C color (0 1 1) endsurface     # Cyan
+surface U color (0 0.5 1) endsurface   # Uniform
+surface B color (0 0 1) endsurface     # Blue
+surface P color (0.6 0 1) endsurface   # Purple
+surface M color (1 0 1) endsurface     # Magenta
+surface Z color (1 0 0.5) endsurface   # Zinnober
+
+###################################################
+
+bank par
+  set xscale   0.3  0.1  0.6  0.02 
+  set yscale   0.3  0.1  0.6  0.02 
+  list ( xscale yscale )
+endbank
+
+point p1 ( 1  1  1) endpoint
+point p2 (-1  1  1) endpoint
+point p3 (-1 -1  1) endpoint
+point p4 ( 1 -1  1) endpoint
+
+mesh quad
+    face fz (p1 p2 p3 p4) endface
 endmesh
 
-group diamond
-	instance t0 triangle endinstance
-	instance t1 triangle rotate (0 1 0) (90) translate (-1 0 1) endinstance
-	instance t2 triangle rotate (0 0 1) (180) endinstance
-	instance t3 triangle rotate (0 0 1) (180) rotate (0 1 0) (90) translate (-1 0 1) endinstance
+group open_cube
+    instance q0 quad  surface Y      endinstance
+    instance q1 quad  surface O  rotate (1 0 0) ( 90) endinstance
+    instance q2 quad  surface R  rotate (1 0 0) (180) endinstance
+    instance q3 quad  surface M  rotate (1 0 0) (-90) endinstance
 endgroup
 
-instance d1 diamond scale (25 25 25) translate (0 0 -25) endinstance
+## Instances at the "top" level will be rendered:
+instance ioc1  open_cube  scale ( {expr $par.xscale} {expr $par.yscale} 0.3 )     endinstance
+instance ioc2  open_cube  scale ( 0.4                {expr $par.yscale} 0.3 )  translate( 1 0 0 )   endinstance
+
+######################   end   ######################
 ```
