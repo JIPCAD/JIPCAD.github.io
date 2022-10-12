@@ -7,7 +7,7 @@ sidebar_position: 1
 ## How does JIPCAD work?
 The JIPCAD proprietary language is built around specifying meshes, groups, and instances. Meshes and groups can be turned into instances, which are then displayed on the UI.
 
-A mesh is any basic generator that is defined within JIPCAD. These basic generators can be found [here](https://github.com/randyfan/NOME3/wiki/NOME3-Language-Reference), and can be combined in order to create more advanced and geometrically complicated shapes. Basic generators have parameters that further specify their shape and look, which allows for more flexibility in design. A call to a generator takes the form:
+A mesh is any basic generator that is defined within JIPCAD. These basic generators can be found [here](../lang-ref/generators), and can be combined in order to create more advanced and geometrically complicated shapes. Basic generators have parameters that further specify their shape and look, which allows for more flexibility in design. A call to a generator takes the form:
 ```markdown
 generator name_of_generator (condition_1 condition_2 ...) endgenerator
 ```
@@ -18,14 +18,14 @@ An instance of either a mesh or a group is created in order to actually bring an
 
 Further operations such as point selection, face deletion, line sweeps, subdivision, screen panning and rotation, etc.) can then be performed once the scene is loaded.
 
-The project must be compiled using CMake, with compilation instructions found [here](https://github.com/randyfan/NOME3/blob/master/README.md). To use the compiled application, open the program and load in a .NOM file. The scene in the .NOM file will be rendered into the crystal-ball interface, which can then be interacted with.
+The project must be compiled using CMake, with compilation instructions found [here](../compiling/mac-compile). To use the compiled application, open the program and load in a `.NOM` file. The scene in the `.NOM` file will be rendered into the crystal-ball interface, which can then be interacted with.
 
-Generators and more-complex shapes (ex. sweeps, combinations of generators, etc.) must be defined and instantiated on the .NOM file prior to rendering in the application, but once a scene is rendered then faces/vertices can be deleted, objects can be subdivided, the time variable can be used to pan the screen, etc.
+Generators and more-complex shapes (ex. sweeps, combinations of generators, etc.) must be defined and instantiated on the `.NOM` file prior to rendering in the application, but once a scene is rendered then faces/vertices can be deleted, objects can be subdivided, the time variable can be used to pan the screen, etc.
 
-## NOME Language Example
+## JIPCAD Language Example
 An example of the interplay between meshes, groups, and instances can be seen here:
 ```markdown
-## NOME Example (scaled open cube)
+## JIPCAD Example (scaled open cube)
 
 ## 2022/09/03
 #################################################################################
@@ -46,8 +46,8 @@ surface Z color (1 0 0.5) endsurface   # Zinnober
 ###################################################
 
 bank par
-  set xscale   0.3  0.1  0.6  0.02 
-  set yscale   0.3  0.1  0.6  0.02 
+  set xscale   0.3  0.1  0.6  0.02
+  set yscale   0.3  0.1  0.6  0.02
   list ( xscale yscale )
 endbank
 
@@ -73,3 +73,5 @@ instance ioc2  open_cube  scale ( 0.4                {expr $par.yscale} 0.3 )  t
 
 ######################   end   ######################
 ```
+
+Further example files can be found [here](https://github.com/JIPCAD/JIPCAD/tree/master/ExampleFiles).

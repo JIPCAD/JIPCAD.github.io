@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+slug: /
 ---
 
 # Introduction
@@ -17,7 +18,7 @@ Berkeley SLIDE (Scene Language for Interactive Dynamic Environments) is a CAD to
 
 In 2018, NOME (Non-Orientable Manifold Editor) was introduced to handle singled-side, non-orientable surfaces and to add interactive graphical editing capabilities. The initial version of NOME offered only a few of the procedural shape generators that were available in SLIDE, and it was difficult to save the changes that were made graphically in a form compatible with the procedural scene description file. Also, its implementation code was rather “ad-hoc” and made it difficult to enhance NOME’s capabilities.
 
-The past efforts and related tools have not found a good balance between procedural mesh generation and interactive GUI modifications. Thus, we have developed a new modeling tool, called JIPCAD (JointInteractive-Procedural CAD), that extends NOME by re-implementing it on a more robust, wellstructured code base and by enhancing the library of predefined shape generators. Many additional modification modes were added to the graphical user interface, and the means of saving those changes and appending it to the original procedural JIPCAD file were improved. The challenges involved are not only generating the shapes and preserving their hierarchical relationships, but also saving interactive changes back into the code for reuse. We decided to rebrand NOME as JIPCAD since the tool’s ability to handle non-orientable surfaces is no longer its distinguishing feature.
+The past efforts and related tools have not found a good balance between procedural mesh generation and interactive GUI modifications. Thus, we have developed a new modeling tool, called JIPCAD (JointInteractive-Procedural CAD), that extends NOME by re-implementing it on a more robust, well-structured code base and by enhancing the library of predefined shape generators. Many additional modification modes were added to the graphical user interface, and the means of saving those changes and appending it to the original procedural JIPCAD file were improved. The challenges involved are not only generating the shapes and preserving their hierarchical relationships, but also saving interactive changes back into the code for reuse. We decided to rebrand NOME as JIPCAD since the tool’s ability to handle non-orientable surfaces is no longer its distinguishing feature.
 
 ## The Current JIPCAD
 
@@ -25,4 +26,4 @@ JIPCAD has been made the tool for robustness and with features such as generaliz
 
 Sculpture by Tord Tengstrand |B-splines added           |intermediate construction step          |  completed construction | sharp subdivision applied
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-<img src="/img/docpic/im1.jpg" alt="drawing" width="200"/>   |  <img src="/img/docpic/im2.jpg" alt="drawing" width="230"/>  | <img src="/img/docpic/im3.jpg" alt="drawing" width="150"/>  | <img src="/img/docpic/im4.jpg" alt="drawing" width="200"/>  | <img src="/img/docpic/im5.jpg" alt="drawing" width="200"/> 
+<img src="/img/docpic/im1.jpg" alt="drawing" width="200"/>   |  <img src="/img/docpic/im2.jpg" alt="drawing" width="230"/>  | <img src="/img/docpic/im3.jpg" alt="drawing" width="150"/>  | <img src="/img/docpic/im4.jpg" alt="drawing" width="200"/>  | <img src="/img/docpic/im5.jpg" alt="drawing" width="200"/>

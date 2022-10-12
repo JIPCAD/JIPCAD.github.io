@@ -7,15 +7,15 @@ sidebar_position: 2
 ## **Bank** **(Status: Up-to-date)**
 
 ```
-bank bankID  
+bank bankID
  set setID1 value1 start1 end1 step_size1
- ...  
+ ...
  set setIDN valueN startN endN step_sizeN
  list (slider_idlist)
 endbank
 ```
 
-Allows the user to change any numerical value in the NOME file through an interactive slider in the GUI.
+Allows the user to change any numerical value in the `.NOM` file through an interactive slider in the GUI.
 
 * `setID`: the variable to be parameterized.
 * `value`: the initial value of the slider.
@@ -28,9 +28,9 @@ Allows the user to change any numerical value in the NOME file through an intera
 
 ```
 $frame
-$time 
+$time
 ```
 
-* These are two global variables that can be used in any expression that evaluates a numerical value in NOME3.
+* These are two global variables that can be used in any expression that evaluates a numerical value in JIPCAD.
 * `$frame`: An integer value that gets incremented by +1 after every rendering of the scene. All expressions comprising frame get updated before the scene is rendered again.
 *  `$time`: A real value that keeps track of elapsed time (in seconds). After a rendering, the system-clock is interrogated and compared to the remembered system clock value after the previous rendering. The time difference is then added to the $time variable, and all expressions comprising $time get updated before the scene is rendered again.
