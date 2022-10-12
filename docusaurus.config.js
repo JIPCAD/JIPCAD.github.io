@@ -81,7 +81,7 @@ const config = {
               },
               {
                 label: 'Compiling',
-                to: '/docs/compiling/mac-compile',
+                to: '/docs/compiling/mac',
               },
             ],
           },

@@ -18,7 +18,7 @@ An instance of either a mesh or a group is created in order to actually bring an
 
 Further operations such as point selection, face deletion, line sweeps, subdivision, screen panning and rotation, etc.) can then be performed once the scene is loaded.
 
-The project must be compiled using CMake, with compilation instructions found [here](../compiling/mac-compile). To use the compiled application, open the program and load in a `.NOM` file. The scene in the `.NOM` file will be rendered into the crystal-ball interface, which can then be interacted with.
+The project must be compiled using CMake, with compilation instructions found [here](../compiling/mac). To use the compiled application, open the program and load in a `.NOM` file. The scene in the `.NOM` file will be rendered into the crystal-ball interface, which can then be interacted with.
 
 Generators and more-complex shapes (ex. sweeps, combinations of generators, etc.) must be defined and instantiated on the `.NOM` file prior to rendering in the application, but once a scene is rendered then faces/vertices can be deleted, objects can be subdivided, the time variable can be used to pan the screen, etc.
 
