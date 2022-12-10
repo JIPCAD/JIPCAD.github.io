@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkjipcad=self.webpackChunkjipcad||[]).push([[535],{5641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Welcome","permalink":"/blog/welcome"},{"title":"Prof.Sequin","permalink":"/blog/carlo-exhibition"},{"title":"Xinyu Zhang","permalink":"/blog/Xinyu-Zhang"},{"title":"Samuel Speas","permalink":"/blog/Samuel"}]}')}}]);
