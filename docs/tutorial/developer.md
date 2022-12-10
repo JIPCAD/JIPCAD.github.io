@@ -6,31 +6,31 @@ sidebar_position: 2
 
 ## Understand the Codebase
 
-The purpose of this document is to provide NOME members enough information about the codebase to reduce the amount of time they need to spend reviewing the codebase individually. It is not a comprehensive overview. 
+The purpose of this document is to provide JIPCAD members enough information about the codebase to reduce the amount of time they need to spend reviewing the codebase individually. It is not a comprehensive overview.
 
-I recommend looking at the actual code files as you read through the sections. For example, when I discuss ASTSceneAdapter.cpp, it’d be ideal to have that file open so you can look at which functions are being referenced. 
+I recommend looking at the actual code files as you read through the sections. For example, when I discuss ASTSceneAdapter.cpp, it’d be ideal to have that file open so you can look at which functions are being referenced.
 
-In general, if there’s a function or code section you’re confused by, consider using the C++ debugger or C++ print statements such as std::cout << “hello” << std::endl; and open a simple .nom file to see the output in the terminal. It may take several hours of just stepping through the code to understand a few sections of it, but it’s a great learning experience in my opinion. That being said, **you don’t have to understand all of the codebase or even the majority of it to be able to contribute to NOME.** For example, to add the Torus Knot generator, the only files I touched were Nom.g4, ASTSyntaxAdapter.cpp, and the new TorusKnot.cpp/.h files. Also, we greatly appreciate any NOME bug fixes, which may require just changing a few lines of code. 
+In general, if there’s a function or code section you’re confused by, consider using the C++ debugger or C++ print statements such as std::cout << “hello” << std::endl; and open a simple .nom file to see the output in the terminal. It may take several hours of just stepping through the code to understand a few sections of it, but it’s a great learning experience in my opinion. That being said, **you don’t have to understand all of the codebase or even the majority of it to be able to contribute to JIPCAD.** For example, to add the Torus Knot generator, the only files I touched were Nom.g4, ASTSyntaxAdapter.cpp, and the new TorusKnot.cpp/.h files. Also, we greatly appreciate any JIPCAD bug fixes, which may require just changing a few lines of code.
 
 ## Codebase Architecture
 
-The NOME GUI uses event-based programming. We have states and when an event comes (e.g., a user opens a .nom file in the GUI or selects a vertex), the application responds to that event by altering states. The three state elements in the codebase are **Document**, **Scene**, **Renderer**. 
+The JIPCAD GUI uses event-based programming. We have states and when an event comes (e.g., a user opens a .nom file in the GUI or selects a vertex), the application responds to that event by altering states. The three state elements in the codebase are **Document**, **Scene**, **Renderer**.
 
-The **Document** files (used for parsing .nom file) are found in NOME3/Application/Parsing, the main **Scene** files (used to store the geometry data) are found in NOME3/Application/Scene, and the **Rendering** files (used to display the scene) are found in NOME3/Application/QtFrontend. 
+The **Document** files (used for parsing .nom file) are found in JIPCAD/Application/Parsing, the main **Scene** files (used to store the geometry data) are found in JIPCAD/Application/Scene, and the **Rendering** files (used to display the scene) are found in JIPCAD/Application/QtFrontend.
 
 The Sourcemanager.cpp file is the main manager for the **Document**. Scene.cpp is the main file for the **Scene**, and Nome3dview.cpp + InteractiveMesh.cpp manages the **Renderer** part. These 3 state elements are opened and connected by this one file called **MainWindow.cpp.** The **MainWindow.cpp** is essentially the center of the codebase. Every state element is linked to it, so I highly recommend starting here when trying to understand the codebase.
 
 So in summary, we have the **Document**, and the document data then flows to the **Scene**, and lastly the scene data flows to the **Renderer** in order to display the scene. The diagram below may help you internalize these relationships.
 
-In the following sections, we’ll briefly discuss each state element and MainWindow.cpp. 
+In the following sections, we’ll briefly discuss each state element and MainWindow.cpp.
 
 ![img](https://lh6.googleusercontent.com/UMP3Jtj9YKDqgWdQWyY3B14SUBWVSQXZQ3sGw_LocplJxk38jWmeWJCkylelWaNkYlGC__cb3hIjd6SnyXdz0Dgifa03p4QSlkApfPpm60qTJJ2J4r0SoHHP6uIsFFzWGPojtMR_m56_JHzC9Q)
 
 ## Documentation
 
-Below is a simple AST example for the “1 + 2” expression. In “1 + 2”, 1 and 2 would be Anum, and + would be ABinaryOp. They all inherit from AExpr. AExpr will be the general thing you’d use to represent any expression, such as “1 + 2” or any expressions in a NOME command. If you look at the children class of AExpr, AIdent is an expression, ANumber is an expression, AUnaryOp is also an expression. ABinary and Avector, ACall , AWrapperExpr, are all expressions. AWrapperExpr deals with the ${expr …}.
+Below is a simple AST example for the “1 + 2” expression. In “1 + 2”, 1 and 2 would be Anum, and + would be ABinaryOp. They all inherit from AExpr. AExpr will be the general thing you’d use to represent any expression, such as “1 + 2” or any expressions in a JIPCAD command. If you look at the children class of AExpr, AIdent is an expression, ANumber is an expression, AUnaryOp is also an expression. ABinary and Avector, ACall , AWrapperExpr, are all expressions. AWrapperExpr deals with the ${expr …}.
 
-If you’re interested in expanding NOME language (e.g. adding for loops) or modifying the document retroactively (e.g. making a change in the scene and saving the scene into the file), understanding these **Document** files, and particularly SourceManager.cpp, will be useful. 
+If you’re interested in expanding JIPCAD language (e.g. adding for loops) or modifying the document retroactively (e.g. making a change in the scene and saving the scene into the file), understanding these **Document** files, and particularly SourceManager.cpp, will be useful.
 
 Unfortunately, many of the files in this **Document** section are quite convoluted. If you look into Sourcemanager.cpp, we have 300 lines of code just to do line number tracking. We have things like RemoveToken() that are also convoluted. Thus, this section of the codebase is quite cumbersome, but can be understood.
 
@@ -40,9 +40,9 @@ Fortunately, if you just want to add a new shape generator, such as a sphere gen
 
 ## Between Document and Scene
 
-After we have constructed the AST using the **Document** files, we can construct the scene using the AST. The code for this AST-to-Scene conversion is implemented in ASTSceneAdapter.cpp. Understanding this particular file will give you a very good understanding of how the data flows from **Document** to **Scene** and how the scene is set up. 
+After we have constructed the AST using the **Document** files, we can construct the scene using the AST. The code for this AST-to-Scene conversion is implemented in ASTSceneAdapter.cpp. Understanding this particular file will give you a very good understanding of how the data flows from **Document** to **Scene** and how the scene is set up.
 
-When you call TraverseFile() in AstSceneAdapter.cpp, it translates whatever is in the AST into the scene. Specifically, TraverseFile() in AstSceneAdapter.cpp loops over all the commands in that file. It actually visits all the bank and sets first to create all the sliders. After it creates all the sliders, it goes through all the commands. For each command, it calls VisitCommandSyncScene(). This function classifies the command into the following 4 types and syncs it with the scene: 
+When you call TraverseFile() in AstSceneAdapter.cpp, it translates whatever is in the AST into the scene. Specifically, TraverseFile() in AstSceneAdapter.cpp loops over all the commands in that file. It actually visits all the bank and sets first to create all the sliders. After it creates all the sliders, it goes through all the commands. For each command, it calls VisitCommandSyncScene(). This function classifies the command into the following 4 types and syncs it with the scene:
 
 1. Dummy (not handled – just a placeholder)
 2. Entity (basically the Shape Generators, including “mesh”)
@@ -59,24 +59,24 @@ Here’s a screenshot of the command type of the various commands (found in ASTS
 
    ![img](https://lh3.googleusercontent.com/f7ZDa24MzvAQSVZ_0Fklnef-yfmKdj4DyOaCpe1cPPcQI5BnBcw0UzINZ_J6VuI2sQpfJJrebw1-g2wwNEcUllc0rqCJq5XNfB6rI5kyniamdKzZX4ShARxiii7vVTfwfS_BEPpDlllkeoc65Q)
 
-   As a side note, the “mesh” command is kind of a special type of entity because it is allowed to have subcommands. It is similar to “group”; the key difference being “group” is a collection of instances while “mesh” is a collection of entities, specifically faces. Thus, “group” is considered an Instance command, while “mesh” is considered an Entity command. 
+   As a side note, the “mesh” command is kind of a special type of entity because it is allowed to have subcommands. It is similar to “group”; the key difference being “group” is a collection of instances while “mesh” is a collection of entities, specifically faces. Thus, “group” is considered an Instance command, while “mesh” is considered an Entity command.
 
    For the “mesh” command, we visit its subcommands (the faces) as well using:
 
-   ```c++
+   ```cpp
    for (auto* sub : cmd->GetSubCommands())
    {
-   VisitCommandSyncScene(sub, scene, true);
-   } 
+       VisitCommandSyncScene(sub, scene, true);
+   }
    ```
 
-   Also, the difference between a “mesh” command and a “CMesh object” is confusing but needs to be understood. A polyline, a circle, torus, mesh, etc. all inherit from“CMesh”, but only “mesh” is actually the “mesh” command of course. 
+   Also, the difference between a “mesh” command and a “CMesh object” is confusing but needs to be understood. A polyline, a circle, torus, mesh, etc. all inherit from“CMesh”, but only “mesh” is actually the “mesh” command of course.
 
-3. If it’s an Instance command, we make a scene node because every instance needs to have a scene node that is part of the scene graph (and the scene tree). 
+3. If it’s an Instance command, we make a scene node because every instance needs to have a scene node that is part of the scene graph (and the scene tree).
 
    Wait… you may be wondering what the heck is a scene tree? How is it different from a scene graph? The difference will be described later, in the Scene section. For now, pretend I did not mention it and we just have some scene graph representing the scene.
 
-   Anyways, the instance can be either an instance of an entity or an instance of a group. To determine if it’s an entity vs group, the code grabs the second identifier name and tries to find an entity. If it finds the entity in the EntityLibrary dictionary, it calls sceneNode->SetEntity(*entity*), storing the *entity* as an InstanceEntity attribute for the scene node (specifically, within each of the scene node’s corresponding scene tree nodes actually. Once again, don’t worry, the difference between screen node vs scene tree node will be discussed in the Scene section). If it doesn’t find an entity with the name, it tries to find a group. If it finds a group, then it makes the instance scene node a parent of the existing group scene node. 
+   Anyways, the instance can be either an instance of an entity or an instance of a group. To determine if it’s an entity vs group, the code grabs the second identifier name and tries to find an entity. If it finds the entity in the EntityLibrary dictionary, it calls sceneNode->SetEntity(*entity*), storing the *entity* as an InstanceEntity attribute for the scene node (specifically, within each of the scene node’s corresponding scene tree nodes actually. Once again, don’t worry, the difference between screen node vs scene tree node will be discussed in the Scene section). If it doesn’t find an entity with the name, it tries to find a group. If it finds a group, then it makes the instance scene node a parent of the existing group scene node.
 
 4. If it’s a Group command, as mentioned briefly above, it will create a scene node for group through the CreateGroup function: GEnv.Scene->CreateGroup(cmd->GetName()). Importantly, this scene node is created, but not connected to the actual scene graph yet. In order for it to be added into the scene graph, you need to make an instance of the group (simulator to how you had to make an instance of an entity in order for the entity to be attached to a scene node). When you make instance of the group (e.g. instance instofG1 G1 endinstance), you find the group called G1 in the Group dictionary and then you make the instance scene node (named instofG1) its parent, and then make SceneRoot the parent of instofG1. So now G1 is linked into the scene graph directly.
 
@@ -97,9 +97,9 @@ Wait... why do we actually need a Scene Tree and how are we creating these scene
 
 Why we need a Scene Tree:
 
-Recall, the **Scene** files are in charge of handling and storing geometry data to represent a scene. The geometry data is stored in two data structures: Scene Graph and Scene Tree. 
+Recall, the **Scene** files are in charge of handling and storing geometry data to represent a scene. The geometry data is stored in two data structures: Scene Graph and Scene Tree.
 
-To illustrate the difference between these two data structures, let’s define an instance of a group called G1, and this group contains a mesh and polyline instance: 
+To illustrate the difference between these two data structures, let’s define an instance of a group called G1, and this group contains a mesh and polyline instance:
 
 ```
 group G1:
@@ -110,13 +110,13 @@ instance instOfG1 G1 endinstance
 instance differentlocation G1 endinstance
 ```
 
-Then, the left image below would be the corresponding Scene Graph built (which contains scene nodes) and the right would be the Scene Tree (which contains scene tree nodes). As you can see the Scene Tree allows each mesh (e.g. polyline1) to have a unique path for each time it’s been instanciated. This is not the case with the Scene Graph. The Scene Graph does not have two unique paths to polyline1 for example. There is just one. So what happens if we use a slider to change the parameters of one instance of a mesh? Then, this becomes problematic for the Scene Graph as you can imagine the renderer would not be able to figure out what objects to alter in the scene. For example, using just a Scene Graph 
+Then, the left image below would be the corresponding Scene Graph built (which contains scene nodes) and the right would be the Scene Tree (which contains scene tree nodes). As you can see the Scene Tree allows each mesh (e.g. polyline1) to have a unique path for each time it’s been instanciated. This is not the case with the Scene Graph. The Scene Graph does not have two unique paths to polyline1 for example. There is just one. So what happens if we use a slider to change the parameters of one instance of a mesh? Then, this becomes problematic for the Scene Graph as you can imagine the renderer would not be able to figure out what objects to alter in the scene. For example, using just a Scene Graph
 
 ![img](https://lh6.googleusercontent.com/TWFfhW0t3GVeBB9rQl8pa7EVRvcMEDXVxkT84f71bvaPKK_A_dLDyY6pqsnd5A7KOOlG8X377L7tq5IvZRjlaQU0F7J-nmuG7xAPHlnbiV2cb0d7wc2oFbsQtjX-M0_wHARA-L2AspQnO-Pucw)
 
 representation, would the slider alter just instOFG1’s polyline1 or another instance of G1’s polyline1? It would incorrectly alter both. This is why we need to construct a Scene Tree and use it for rendering.
 
-To summarize, Scene Tree has a unique path to each object in the scene, and this is the key difference between the Scene Graph and the Scene Tree; the unique path allows us to reuse the same objects without confusing the renderer. 
+To summarize, Scene Tree has a unique path to each object in the scene, and this is the key difference between the Scene Graph and the Scene Tree; the unique path allows us to reuse the same objects without confusing the renderer.
 
 Once we have this Scene Tree all set up, we will be checking for changes in the tree nodes (for example, if a slider causes a mesh parameter to change) with the below function:
 
@@ -144,9 +144,9 @@ You can think of the Scene Tree and Scene Graph as being connected to the Scene 
 
 ![img](https://lh6.googleusercontent.com/mUbqurBoV1ShdsmYZF81s19oc7aVe_xNAVyFLxUxmqf6mgBnLtB2HPudbF47L4XADSIC2hRLYd5sH1T2KOW9-BmGDkIqgGSfxF-c7WiPEouCF-n_XJSXsyE_X3XhbueUYz5n3GK5HofCwyhDIA)
 
-The **Scene** files are the core part of NOME and where you may be spending the majority of your time on; it is where all the fancy geometry logic is stored (e.g. TorusKnot.cpp). If you’re interested in creating new shape generators or doing complex geometry stuff with vertices, the scene files + a few files within **Document** are basically the only sections you need to get familiar with.
+The **Scene** files are the core part of JIPCAD and where you may be spending the majority of your time on; it is where all the fancy geometry logic is stored (e.g. TorusKnot.cpp). If you’re interested in creating new shape generators or doing complex geometry stuff with vertices, the scene files + a few files within **Document** are basically the only sections you need to get familiar with.
 
-As a side note, each mesh is, behind the scenes, represented as an OpenMesh (graphics library) mesh called CMeshImpl, which keeps track of the mesh’s half-edge data structure and other topological information. 
+As a side note, each mesh is, behind the scenes, represented as an OpenMesh (graphics library) mesh called CMeshImpl, which keeps track of the mesh’s half-edge data structure and other topological information.
 
 ## Render
 
@@ -158,11 +158,11 @@ The InteractiveMesh contain a reference to the associated entity through a Scene
 
 ## MainWindow.cpp
 
-Let’s now take a look at a few of the key functions within **MainWindow.cpp**, the center of the codebase. Starting at the very top of the file, inside the CMainWindow constructor, we setup the UI and load an empty NOME file into the scene. Then, we have a bunch of on_action triggers. As their name suggests, these functions get ran when the button gets triggered. If you’re curious how these are tracked or represented in the UI, look at the MainWindow.ui file. If you want to improve our user interface design or add new buttons, this UI file is important.
+Let’s now take a look at a few of the key functions within **MainWindow.cpp**, the center of the codebase. Starting at the very top of the file, inside the CMainWindow constructor, we setup the UI and load an empty JIPCAD file into the scene. Then, we have a bunch of on_action triggers. As their name suggests, these functions get ran when the button gets triggered. If you’re curious how these are tracked or represented in the UI, look at the MainWindow.ui file. If you want to improve our user interface design or add new buttons, this UI file is important.
 
-After the the on_action functions, we see the functions that were used to set up the UI when you open nome3.exe, such as SetupUI() and LoadEmptyNomeFile(). In LoadNomeFile(), notice we are first calling functions from **Document** to parse the .nom file, then we create a **Scene** with “new Scene::CScene” and then calling PostloadSetup() at the very end to **Render** the scene. This chain of functions is exactly in the order as described in the beginning: **Document** -> **Scene** -> **Render**. 
+After the the on_action functions, we see the functions that were used to set up the UI when you open nome3.exe, such as SetupUI() and LoadEmptyNomeFile(). In LoadNomeFile(), notice we are first calling functions from **Document** to parse the .nom file, then we create a **Scene** with “new Scene::CScene” and then calling PostloadSetup() at the very end to **Render** the scene. This chain of functions is exactly in the order as described in the beginning: **Document** -> **Scene** -> **Render**.
 
-PostloadSetup() is an important function. After we have set up the UI and loaded the NOME file, here we set up the clock to keep track of any scene updates. Specifically, every 100 milliseconds, we literally check to see if the Scene has any updates by performing a DFS on the Scene Tree (note: not the Scene Graph!). The Scene Tree nodes are capable of being marked “dirty” when its value changes, so the DFS would be able to identify the “dirty” nodes and update the display accordingly. 
+PostloadSetup() is an important function. After we have set up the UI and loaded the JIPCAD file, here we set up the clock to keep track of any scene updates. Specifically, every 100 milliseconds, we literally check to see if the Scene has any updates by performing a DFS on the Scene Tree (note: not the Scene Graph!). The Scene Tree nodes are capable of being marked “dirty” when its value changes, so the DFS would be able to identify the “dirty” nodes and update the display accordingly.
 
 ![img](https://lh6.googleusercontent.com/YChxTcmPjnWyvid6fyZdKNOUM8BMuUOYuRPRoatPcsc-FgZ_nEjBqwVb4FMgxIEanvwmVUQ1jbPPCKKW_VnqsMyM4ZuBrJCvdcCGAO8hvuN9vJDEhkiYEVc57nlsBTguIYo7z3uLNPfbSU1NIA)
 
@@ -172,7 +172,7 @@ Specifically, Scene->Update() calls this DFSTreeNodeUpdate shown below. PostScen
 
 ## Generators
 
-Generators in the NOME3 Project are built in C++. A custom implementation of meshes, faces, and points based off of OpenMesh points and faces are used as the underlying data structures, and ANTLR4 is used to define and parse the proprietary NOME Language.
+Generators in the JIPCAD Project are built in C++. A custom implementation of meshes, faces, and points based off of OpenMesh points and faces are used as the underlying data structures, and ANTLR4 is used to define and parse the proprietary JIPCAD Language.
 
 An example of a typical Generator File in C++:
 ```cpp
@@ -260,30 +260,30 @@ void CMobiusStrip::UpdateEntity()
 
 ## Error Reporting Module
 
-(Go to NOME3/Application/Parsing/SourceManager.CPP). There, you will find the `ReportErrors` and `CheckStatement` Methods, the two key methods in building an instance checker. 
+(Go to JIPCAD/Application/Parsing/SourceManager.CPP). There, you will find the `ReportErrors` and `CheckStatement` Methods, the two key methods in building an instance checker.
 
 `ReportErrors` Method parses the nom.g4 file, and tokenizes the code so it can be parsed by the CheckStatement Methods
 
-`CheckStatement` Method goes through, line-by-line, the code looking for key phrases. If it finds an illegal phrase before it finds a legal phrase, it immediately errors. 
+`CheckStatement` Method goes through, line-by-line, the code looking for key phrases. If it finds an illegal phrase before it finds a legal phrase, it immediately errors.
 
 ### Video Tutorial
 Checkout the error reporting [video tutorial](/tutorial_videos) for developers.
 
-### Important Variables: 
-```c++
-std::vector<std::vector<std::string>> parsedcode -> 2d Vector which contains each word for the code by line numbers. 
-std::unordered_map<std::string, std::string> shapemap -> Hashmap that maps each phrase to its endphrase (circle -> endcircle) 
+### Important Variables:
+```cpp
+std::vector<std::vector<std::string>> parsedcode -> 2d Vector which contains each word for the code by line numbers.
+std::unordered_map<std::string, std::string> shapemap -> Hashmap that maps each phrase to its endphrase (circle -> endcircle)
 std::unordered_map<std::string, std::string> idmap; -> Map of IDs
-std::unordered_map<std::string, std::string> referencemap; -> Map of References (store anything you have to remember other than ids) 
+std::unordered_map<std::string, std::string> referencemap; -> Map of References (store anything you have to remember other than ids)
 ```
 
 ### Building Instance Syntax Checkers:
 
- Starting at line 212, There is a place where you can call your instance syntax checkers. Each checker takes in the parsed code, idmap, referencemap, the ith and jth location of where you are currently checking, and the shapemap. 
-Your function should either return {error} or a vector of the ith and jth location of where your syntax checker found the endphrases. There are already a lot of syntax checkers implemented, you can use things like CheckInstance() to check an instance if your syntax checker comes up to an instance for example. 
-These functions are implemented for you 
+ Starting at line 212, There is a place where you can call your instance syntax checkers. Each checker takes in the parsed code, idmap, referencemap, the ith and jth location of where you are currently checking, and the shapemap.
+Your function should either return {error} or a vector of the ith and jth location of where your syntax checker found the endphrases. There are already a lot of syntax checkers implemented, you can use things like CheckInstance() to check an instance if your syntax checker comes up to an instance for example.
+These functions are implemented for you
 
-```c++
+```cpp
 balancedbracket(std::string)
 isNumber(std::string)
 checkcount(std::string, char) -> counts instances of char in string
@@ -292,10 +292,10 @@ CheckInstance(std::vector<std::vector<std::string>> parsedcode, std::unordered_m
 CheckBank(std::vector<std::vector<std::string>> parsedcode, std::unordered_map<std::string, std::string> &referencemap, std::unordered_map<std::string, std::string> &idmap, int i, int j, std::unordered_map<std::string, std::string> shapemap)
 CheckGroup(std::vector<std::vector<std::string>> parsedcode, std::unordered_map<std::string, std::string> &idmap, int i, int j, std::unordered_map<std::string, std::string> shapemap)
 ```
- 
-In your function, you should be checking for 
+
+In your function, you should be checking for
 * Correct Number of phrases
-* Valid IDs (use idmap) 
+* Valid IDs (use idmap)
 * Appropriate use of optional phrases
 * No reserved characters
 * No illegal phrases (only expected ones)

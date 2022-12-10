@@ -25,13 +25,13 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/JIPCAD/NOME3',
+          editUrl: 'https://github.com/JIPCAD/JIPCAD',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/JIPCAD/NOME3',
+            'https://github.com/JIPCAD/JIPCAD',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -56,10 +56,10 @@ const config = {
             position: 'left',
             label: 'Documentation',
           },
-          {to: '/blog', label: 'Exhibition', position: 'left'},
-          {to: '/download', label: 'Download', position: 'left'},
+          { to: '/blog', label: 'Exhibition', position: 'left' },
+          { to: '/download', label: 'Download', position: 'left' },
           {
-            href: 'https://github.com/JIPCAD/NOME3',
+            href: 'https://github.com/JIPCAD/JIPCAD',
             label: 'GitHub',
             position: 'right',
           },
@@ -81,7 +81,7 @@ const config = {
               },
               {
                 label: 'Compiling',
-                to: '/docs/compiling/mac-compile',
+                to: '/docs/compiling/mac',
               },
             ],
           },
@@ -89,12 +89,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'slack',
+                label: 'Slack',
                 href: 'https://nomedevelopment.slack.com/',
               },
             ],
           },
-          { 
+          {
             title: 'More',
             items: [
               {
@@ -103,7 +103,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/JIPCAD/NOME3',
+                href: 'https://github.com/JIPCAD/JIPCAD',
               },
               {
                 label: 'Editor\'s Wiki',
