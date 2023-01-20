@@ -1,53 +1,20 @@
 ---
-title: Markdown page example
+title: Downloads | JIPCAD
 ---
 
 # JIPCAD Software Download
 
-## Version 3.1.3
-New Feature:
-* Fix sweep cut features
+Mac and Linux users cannot download JIPCAD directly and should see their respective Compilation pages([Mac](/docs/compiling/mac)/[Linux](/docs/compiling/linux))
 
+## [Version 1.4.0](https://github.com/JIPCAD/JIPCAD/releases/tag/v1.4.0)
+* Error Reporting Update
+* Sweep Morphs implemented
 
-### Windows
-[Click Here To Download](https://ci.appveyor.com/api/buildjobs/xw0b23ddqwahxnr7/artifacts/JIPCAD-3.0.19-win64.zip)
+Windows users can download the zip file and extract.
 
-## Version 3.1.2
-New Feature:
-* Frontface toggling
-* Wireframe mode after merging and subdivision
+Mac and Linux users must download the source code and compile the codebase.
 
-### Windows
-[Click Here To Download](https://ci.appveyor.com/api/buildjobs/42w2x2j4tg0gt833/artifacts/JIPCAD-3.0.3-win64.zip)
+## New! .nom VSCode Language Extension v 1.0.0
+Find on VSCode Marketplace in-app or [here](https://marketplace.visualstudio.com/items?itemName=AaronZheng.nome)
 
-
-## Version 3.1.1
-New Feature:
-* Bug fixing&add robustness--polyline bug fixed
-
-### Windows
-[Click Here To Download](https://ci.appveyor.com/api/buildjobs/4fa3xmkf3bapol1y/artifacts/JIPCAD-3.0.2-win64.zip)
-
-
-## Version 3.1.0
-New Feature:
-* BackFace toggle
-* Wireframe mode
-
-### Windows
-[Click Here To Download](https://ci.appveyor.com/api/buildjobs/002f40xg4h5ncio8/artifacts/JIPCAD-3.0.1-win64.zip)
-
-
-## Version 3.0.18
-New Feature:
-* Backface Color
-* Merge Issue Fixed
-* Better Error Reporting
-
-
-### Windows
-
-[Click Here To Download](https://ci.appveyor.com/api/buildjobs/69lweo9cc0n42d2d/artifacts/Nome3-3.0.18-win64.zip)
-
-### Mac OS
-There is no Mac OS compiled executable yet, please follow the instruction in the compile page in the documentation.
+VSCode download link [here](https://code.visualstudio.com/)

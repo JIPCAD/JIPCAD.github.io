@@ -8,8 +8,8 @@ const FeatureList = [
     Svg: require('/img/face1.svg').default,
     description: (
       <>
-        The JIPCAD software is accompanied by friendly user interface and 
-        allows you to put all your imagination into one place.
+        JIPCAD is accompanied by a friendly user interface which 
+        allows you to realize all your imaginations in one place.
       </>
     ),
   },
@@ -18,8 +18,8 @@ const FeatureList = [
     Svg: require('/img/face3.svg').default,
     description: (
       <>
-        JIPCAD has powerful math parsing capability embedded inside, generate elegant 
-        and artistic shapes and embrace the beauty of math in your creations.
+        JIPCAD utilizes powerful math parsing capabilities to generate elegant, 
+        artistic shapes and embrace the beauty of math in your creations.
       </>
     ),
   },
@@ -28,9 +28,9 @@ const FeatureList = [
     Svg: require('/img/face4.svg').default,
     description: (
       <>
-        Export the scene to the general 3D format like STL for 3D printing
-        and merge with your other projects and bring the model into reality 
-        with 3D printing.
+        Models can be exported to 3D formats, including STL,
+        and merged with other projects to bring your work into reality 
+        through additive manufacturing.
       </>
     ),
   },

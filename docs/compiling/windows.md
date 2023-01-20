@@ -4,6 +4,8 @@ sidebar_position: 2
 
 # Windows
 
+### NOME can be downloaded as a simple zip file instead of compiling the codebase on Windows! [here](/download)
+
 ## Dependencies
 This section will walk you through the steps for setting up a build environment for JIPCAD on Windows. Here is a list of the required dependencies:
 
@@ -32,7 +34,7 @@ vcpkg --triplet x64-windows install pugixml
 git clone --recursive https://github.com/JIPCAD/JIPCAD
 ```
 
-~~vcpkg --triplet x64-windows install qt5-base qt5-3d~~ (Update 12/21/2020: the most recent qt5 package, 5.15 as of 12/21, is no longer compatible with JIPCAD. Please read Qt installation below.
+~~vcpkg --triplet x64-windows install qt5-base qt5-3d~~ (Update 12/21/2020: the most recent qt5 package, 5.15 as of 12/21, is no longer compatible with JIPCAD. Please read Qt installation below.)
 
 
 ### Qt Installation
@@ -45,14 +47,17 @@ To fix this, please download Qt directly:
 3. Scroll down and click "Download the Qt Online Installer"
 4. Download the installer and run it
 5. Follow the setup instructions,  which will require you to create a Qt account if I recall correctly. When you to "Select Components" page, please select the following. We choose to install Qt 5.12.5 since it works w/ JIPCAD (__this is a very important step__):
-   ![](https://github.com/JIPCAD/JIPCAD/blob/master/Docs/Qtsetup.png)
+   
+![very important](/img/QtSetupSnip.png)
+
 6. Click next and complete installation. Qt should be ~40gb, so make sure you have enough storage space.
 7. Done, move on to compilation
 
 
 ## Compile
 Open up the CMake GUI, and set it up like this:
-![](https://github.com/JIPCAD/JIPCAD/blob/master/Docs/snip1.jpg)
+
+![](/img/NomeConfig.jpg)
 
 Then click on "Add Entry" to add the following variables so that CMake can find all those libraries:
 
@@ -67,7 +72,8 @@ Now you can click on "Configure" and "Generate" to generate a Visual Studio solu
 
 
 This an example of running a simple cube .nom instance after following the steps above:
-![](https://github.com/cyj0912/Nome3/blob/master/Docs/hellocube.png)
+
+![](/img/hellocube.png)
 
 
 ## Troubleshooting
