@@ -4,13 +4,13 @@ sidebar_position: 5
 
 # Common Include Files
 
-Here's some files you might find useful to frequently include in your JIPCAD projects. Feel free to add your own! At the moment, they are included as walls of text which can be copied into a .nom file to produce the detailed result.
+These are some files you might find useful to frequently include in your JIPCAD projects. Feel free to add your own! At the moment, they are included as walls of text which can be copied into a .nom file to produce the detailed result.
 
 ### Surfaces
 
 <details>
 <summary>
-Includes a list of surfaces you can use to color your generators.
+A list of surfaces you can use to color your generators.
 </summary>
 
 ```

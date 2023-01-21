@@ -11,12 +11,12 @@ Also note many UI controls are currently unstable and prone to crashing JIPCAD.
 ## Export as STL
 
 Exports a standard STL file for 3D printing. May require Merging beforehand, which closes any small openings between shapes and changes the model from a hollow tube with an infinitely thin wall thickness to a solid object.
-* Merging can crash with circular or spherical generators, as well as with general surfaces; the causes of these errors will be reported on the terminal.
+* Merging can crash with circular or spherical generators, as well as with general cartesian/implicit/parametric surfaces; the causes of these errors will be reported on the terminal.
 
 ## Render Config Options
 
 * No Front Face turns off the "outside surfaces" of all generators, meaning whichever side of each shape in the scene is colored orange or by surface definitions. Turning off just Front Face will make all shapes appear black but will keep their structure.
-* No Back Face will do the opposite, removing the black sides of all generators in the scene but keeping their structures.
+* No Back Face will do the opposite, removing the black sides of all generators in the scene but keeping their structures and colors.
 
 Turning off both Front and Back Face will cause all generators to disappear completely, as neither face is displayed.
 * Wireframe will draw a cage around every shape; either a wireframe line will be drawn on each sharp edge of generators whose segments cannot be changed (e.g. rects) or, for generators where the segments can be defined (e.g. circles, sweeps), a wireframe line will be drawn around each segment of the generator.
@@ -38,7 +38,7 @@ Allows deletion of faces in the mesh.
 
 ## Add Point Config
 
-By enabling Add Point, the user can--while no selection options are in use--to select points on a generator and add them to the model.
+By enabling Add Point, the user can--while no selection options are in use--select spots on a generator and add them to the model.
 
 ## Commit Changes
 

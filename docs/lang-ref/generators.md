@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 
 # Commands and  Generators
-To troubleshoot generator issues, first look through the information here and then check the Q&A page. The below commands only build shapes; to display them in the scene, they must be instanced using the command under [Scene Graph & Geometric Manipulation](docs/lang-ref/manipulation). <br /> To see examples of properly-used generators, see the exemplars under [Exhibition](/blog) or the worked examples under [Tutorials](/docs/tutorial/user).
+To troubleshoot generator issues, first look through the information here and then check the Q&A page. The below commands only build shapes; to display them in the scene, they must be instanced using the command under [Scene Graph & Geometric Manipulation](/docs/lang-ref/manipulation). <br /> To see examples of properly-used generators, see the exemplars under [Exhibition](/blog) or the worked examples under [Tutorials](/docs/tutorial/getting-started).
 
 ## B-Spline
 
@@ -103,7 +103,7 @@ Defines a (wedge of a) cylinder.
 * `“botcap”`: if present, draw the bottom face (with downward normal).
 * `“topcap”`: if present, draw the top face on the cylinder.
 * `Radius`, `height`, `theta_segs` cannot be negative.
-* `Theta_max` must be between 0 ~ 360 degrees.
+* `Theta_max` must be between 0 and 360 degrees.
 
 </details>
 
@@ -120,10 +120,10 @@ Disk id (radius theta_max theta_segs) enddisk
 Defines a (partial) disk.
 
 * `radius`: the radius of the disk.
-* `theta_max`: the max theta angle (<= 360 degrees), resulting in a wedge.
+* `theta_max`: the max theta angle. If less than 360 degrees, a wedge will be created.
 * `theta_segs`: the number of segments in the wedge perimeter.
 * `radius`,` theta_segs` cannot be negative.
-* `Theta_max` must be between 0 ~ 360 degrees.
+* `Theta_max` must be between 0 and 360 degrees.
 
 </details>
 
@@ -183,7 +183,7 @@ Defines a face from a list of points. Front face uses counter-clockwise winding.
 
 * `point_idlist`: a list of points of the form `point1` `point2` ...
 
-A face cannot be included in an instance and displayed; it must be made into a mesh and the mesh displayed. Additionally, two faces cannot occupy the exact same space (i.e. same number of points with identical coordinates) but they may overlap.
+A face cannot be included in an instance and displayed; it must be made into a mesh and the mesh displayed. Additionally, two faces cannot occupy the exact same space (i.e. same number of points with identical coordinates), but they may overlap.
 
 </details>
 
@@ -211,7 +211,7 @@ Creates a collection of faces, which can optionally be colored. Faces in a mesh 
 * `point_idlist`: a list of points of the form `point1` `point2` ...
 * `pointId`: the name of the point
 
-Faces within a mesh cannot be rotated, translated, etc.: this is reserved for an instance of the mesh.
+Individual faces within a mesh cannot be rotated, translated, etc.: these commands are reserved for mesh instances.
 </details>
 
 ## Funnel
@@ -375,8 +375,6 @@ Defines a mobius strip with a specified number of twists and cuts.
 * twists: the number of twists in the mobius strip.
 * cuts: the number of cuts in the mobius strip band (cuts go parallel to the edges of the band). Gaps and sub-bands will all be of the same width. Sum of widths = radius.
 * segs: the number of segments around the band.
-
-> should we also allow: `[brep brep-type]` -- as in sweeps, etc
 
 </details>
 
@@ -611,7 +609,5 @@ Defines a torus knot.
 * `segs_sweep`: the number of segments along the sweep path.
 
 It can be helpful to use the wireframe viewing option when attempting to visualize torus knots: this is found under Render Config in the UI (more info on the UI in [UI Controls page](/docs/lang-ref/UIControls)).
-
-> should we also allow: `[brep brep-type]` -- as in sweeps, etc
 
 </details>
