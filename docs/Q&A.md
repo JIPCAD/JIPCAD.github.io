@@ -15,11 +15,6 @@ Visual Studio Code itself can be downloaded [here](https://code.visualstudio.com
 
 Use `#` for single-line comments and `(*` `*)` for multi-line.
 
-
-### NOME crashes the first time I load any file!
-
-This is a known bug of the current version of JIPCAD. This happens for most files regardless of if it is constructed correctly. The crash does not cause any file damage or additional issues and we plan to address this in an upcoming release.
-
 ### How does error reporting work?
 Error reporting comes along with the NOME3 executable itself. The command line window pop-up from the NOME3 executable file will display the error reporting right before crash. 
 
