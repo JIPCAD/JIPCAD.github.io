@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkjipcad=self.webpackChunkjipcad||[]).push([[8009],{1648:function(s){s.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/subdivision","name":"Subdivision","count":1,"permalink":"/blog/tags/subdivision"}')}}]);
