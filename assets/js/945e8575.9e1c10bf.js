@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkjipcad=self.webpackChunkjipcad||[]).push([[5620],{6797:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/exhibition","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

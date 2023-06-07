@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkjipcad=self.webpackChunkjipcad||[]).push([[1384],{822:function(i){i.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/exhibition","name":"Exhibition","count":1,"permalink":"/blog/tags/exhibition"}')}}]);

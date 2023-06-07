@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkjipcad=self.webpackChunkjipcad||[]).push([[1384],{822:a=>{a.exports=JSON.parse('{"label":"Exhibition","permalink":"/blog/tags/exhibition","allTagsPath":"/blog/tags","count":1}')}}]);
