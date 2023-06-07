@@ -11,17 +11,25 @@ sidebar_position: 5
 
 ```
 camera id
-    projection [NOME_PERSPECTIVE] or [NOME_ORTHOGRAPHIC] or [NOME_FRUTUM]
-    frustum [(left right bottom top nearPlane farPlane) for NOME_ORTHOGRAPHIC and NOME_FRUTUM; (fieldOfView aspectRatio nearPlane farPlane) for NOME_PERSPECTIVE]
-    ctranslate (tx ty tz)
-    crotate (rx ry rz){in degrees}
+    projection [PERSPECTIVE] or [PARALLEL]
+    frustum [({left} {right} {bottom} {top} {nearPlane} {farPlane}) for PARALLEL; ({fieldOfView} {aspectRatio} {nearPlane} {farPlane}) for PERSPECTIVE]
+    ctranslate (tx ty tz) (Not Yet Implemented!)
+    crotate (rx ry rz){in degrees} (Not Yet Implemented!)
 endcamera
 ```
 
 </summary>
 
-* `NOME_PERSPECTIVE`, `NOME_ORTHOGRAPHIC`, `NOME_FRUTUM`: if present, specify the type of projection applied.
-If none is supplied, the default is  `NOME_PERSPECTIVE`.
+* `{fieldOfView}`: extent of the observable world that is seen, defined by an angle (0&deg; ~ 360&deg;).
+* `{aspectRatio}`: ratio of the width and height of the viewport. 
+* `{left}`: Defines the left X axis of the Nearplane and Farplane.
+* `{right}`: Defines the Right X axis of the Nearplane and Farplane.
+* `{bottom}`: Defines the Bottom Y axis of the Nearplane and Farplane.
+* `{top}`: Defines the Top Y axis of the Nearplane and Farplane.
+* `{nearPlane}`: Defines the Z axis of the Nearplane.
+* `{farPlane}`: Defines the Z axis of the Farplane.
+
+The default Camera is `PERSPECTIVE`, with 45&deg; `FOV`, 1280x720 `Aspect Ratio`, 0.1 `nearPlane`, and 1000 `farPlane`.
 
 </details>
 
