@@ -12,9 +12,7 @@ sidebar_position: 5
 ```
 camera id
     projection [PERSPECTIVE] or [PARALLEL]
-    frustum [({left} {right} {bottom} {top} {nearPlane} {farPlane}) for PARALLEL; ({fieldOfView} {aspectRatio} {nearPlane} {farPlane}) for PERSPECTIVE]
-    ctranslate (tx ty tz) (Not Yet Implemented!)
-    crotate (rx ry rz){in degrees} (Not Yet Implemented!)
+    frustum [({left} {right} {bottom} {top} {nearPlane} {farPlane}) for PARALLEL; ({fieldOfView} {aspectRatio} {nearPlane} {farPlane} 0 0) for PERSPECTIVE]
 endcamera
 ```
 
@@ -29,7 +27,7 @@ endcamera
 * `{nearPlane}`: Defines the Z axis of the Nearplane.
 * `{farPlane}`: Defines the Z axis of the Farplane.
 
-The default Camera is `PERSPECTIVE`, with 45&deg; `FOV`, 1280x720 `Aspect Ratio`, 0.1 `nearPlane`, and 1000 `farPlane`.
+The default Camera is: `PERSPECTIVE`, with 45&deg; `FOV`, 1280x720 `Aspect Ratio`, 0.1 `nearPlane`, and 1000 `farPlane`.
 
 </details>
 
@@ -39,14 +37,16 @@ The default Camera is `PERSPECTIVE`, with 45&deg; `FOV`, 1280x720 `Aspect Ratio`
 
 ```
 light id
-    type [NOME_DIRECTIONAL] or [NOME_AMBIENT]
+    type [DIRECTIONAL] or [AMBIENT]
     color (R G B)
+    direction (X Y Z) FOR DIRECTIONAL
 endlight
 ```
 
 </summary>
 
 Creates a light that can optionally be colored and a directed or ambient beam.
+For Directional lighting, you can specify the vector direction the light is pointing to.
 
 </details>
 
@@ -65,6 +65,17 @@ endviewport
 
 Single or multiple viewport setting.
 
+</details>
+
+## Background Color
+<details><summary>
+
+```
+backgroundcolor (R G B) endbackground
+```
+
+</summary>
+Sets background color of scene. 
 </details>
 
 ## Global Frontface Color
